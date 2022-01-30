@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/utils/helpers.dart';
@@ -31,11 +33,13 @@ class _AddCvScreenState extends State<AddCvScreen> {
   final picker = ImagePicker();
   List<String> imgName = ["السيرة الذانية", "صورة شخصية", "صورة كاملة"];
   List<String> imgNameEn = ["CV", "Profile Picture", "Full Picture"];
-
+  late Position _currentPosition;
+  late String _currentAddress;
    String? genderValue;
    Occupation? selectedJob;
    Gender? selectedGender;
   bool isSpecialJob = false;
+  String countryCode= "";
    DateTime? pickedDate;
   ImageSource imgSrc = ImageSource.gallery;
   List<File> _images = [];
@@ -90,10 +94,14 @@ class _AddCvScreenState extends State<AddCvScreen> {
   FocusNode birthdateNode = FocusNode();
   FocusNode passportdateNode = FocusNode();
   FocusNode passportEnddateNode = FocusNode();
+
+
   @override
-  void initState() {
+  initState()  {
     super.initState();
+
     getData();
+
   }
 
   unfocus() {
@@ -583,7 +591,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                             );
                                           },
                                           child: Text(
-                                              "${selectedCountry == null ? data.country?.first.dialing : selectedCountry!.dialing}"),
+                                              "${selectedCountry == null ?countryCode: selectedCountry!.dialing}"),
                                         )
                                       ],
                                     ),
@@ -1385,7 +1393,25 @@ class _AddCvScreenState extends State<AddCvScreen> {
             ));
     return done;
   }
+  Future<void> getCountryName() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    List<Placemark> address =
+    await placemarkFromCoordinates(position.latitude, position.longitude);
+    Placemark placeMark = address.first;
+    String? country = placeMark.country;
+    print(country);
+    setState(() {
+      for(var item in data.country!){
+        if(item.countryNameEn?.toLowerCase()==country?.toLowerCase()) {
+          selectedCountry=item;
+          print(selectedCountry);
+        }
 
+      }
+    });
+    // this will return country name
+  }
   getData() async {
     // title = await AppDataService().getCvTitle();
     data = await AppDataService().getFilters();
@@ -1393,6 +1419,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
       selectedCountry = data.country!.first;
     }
     isLoading = false;
+    getCountryName();
     setState(() {});
   }
 

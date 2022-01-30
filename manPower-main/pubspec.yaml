@@ -36,8 +36,7 @@ dependencies:
   shared_preferences: ^2.0.12
   carousel_slider: ^4.0.0
   share_plus: ^3.0.4
-  geocode: ^1.0.1
-
+  geocoding: ^2.0.0
   youtube_player_flutter: ^8.0.0
   geolocator: ^7.7.1
   google_maps_flutter: ^2.1.1
