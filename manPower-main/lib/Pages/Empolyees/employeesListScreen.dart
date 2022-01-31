@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:manpower/Global/theme.dart';
@@ -22,6 +23,7 @@ class EmployeesScreen extends StatefulWidget {
 
 class _EmployeesScreenState extends State<EmployeesScreen> {
   bool isLoading = true;
+  bool loadingMoreData = false;
   bool isExpand = false;
    late filter.FiltersData data;
   List<Employees> workers = [];
@@ -51,6 +53,9 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
 
   getWorkers() async {
     if (!isEnd) {
+      setState(() {
+        loadingMoreData = true;
+      });
       List<Employees> list = await WorkerService().getWorker(
           id: widget.id??"",
           page: page,
@@ -61,6 +66,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
           statusId: selctedStatus?.statusId ?? "");
       workers.addAll(list);
       isEnd = list.isEmpty;
+      loadingMoreData=false;
       setState(() {});
     }
   }
@@ -435,9 +441,28 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.7,
                     child: ListView.builder(
-                      itemCount: workers.length,
+                      itemCount: loadingMoreData?workers.length+1:workers.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return Padding(
+
+                        return  loadingMoreData&&index==workers.length?Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: MediaQuery.of(context).size.height * 0.22,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment:MainAxisAlignment.center,
+                              children: [
+                                Text("Loading"),
+                                SizedBox(width: 10,),
+                                CircularProgressIndicator()
+
+                              ],
+                            ),
+                          ),
+                        ):Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: EmployeesCards(
                               amount: "${payment.viewConatcts}",
