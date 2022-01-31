@@ -14,6 +14,7 @@ class Company {
       this.clicks,
       this.ratingNo,
       this.map,
+        this.whatsapp,
       this.rating});
 
   String? companyId;
@@ -31,6 +32,7 @@ class Company {
   String? rating;
   String? ratingNo;
   String? map;
+  String? whatsapp;
 
   factory Company.fromJson(Map<String, dynamic> json) => Company(
         companyId: json["company_id"],
@@ -40,6 +42,7 @@ class Company {
         categoryName: json["category_name"],
         companymobile: json["companymobile"],
         details: json["details"],
+    whatsapp:json["whatsapp"],
         picpath: json["picpath"],
         workers: json["workers"],
         slider: Slider.fromJson(json["slider"]),
@@ -48,6 +51,7 @@ class Company {
         ratingNo: "${json['ratingNo']}",
         map: "${json['map']}",
         clicks: json["clicks"] == null ? null : Clicks.fromJson(json["clicks"]),
+
       );
 }
 

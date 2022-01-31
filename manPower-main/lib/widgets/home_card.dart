@@ -32,7 +32,10 @@ class HomeCard extends StatefulWidget {
 }
 
 class _HomeCardState extends State<HomeCard> {
-  _launchURL(String url) async {
+  _launchURL(String url,String nameOfSocialProgram) async {
+    if(url == "" || url == "https://wa.me/" || url == "tel:"){
+      _showDialog("the $nameOfSocialProgram is'nt available at the moment", "sorry");
+    }
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -42,6 +45,29 @@ class _HomeCardState extends State<HomeCard> {
 
   sendClick(id, socialMedia) {
     CompaniesService().socialMediaClicked(id, socialMedia);
+  }
+
+  void _showDialog(String content,String title) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(title),
+          content: new Text(content),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -106,7 +132,7 @@ class _HomeCardState extends State<HomeCard> {
                           InkWell(
                             onTap: () {
                               sendClick(widget.categoryId, "facebook");
-                              _launchURL("${widget.facebookUrl}");
+                              _launchURL("${widget.facebookUrl}","facebook");
                             },
                             child: Image.asset(
                               "assets/icon/facebook.png",
@@ -116,7 +142,7 @@ class _HomeCardState extends State<HomeCard> {
                           InkWell(
                             onTap: () {
                               sendClick(widget.categoryId, "instagram");
-                              _launchURL("${widget.instagramUrl}");
+                              _launchURL("${widget.instagramUrl}","instagram");
                             },
                             child: Image.asset(
                               "assets/icon/instagram.png",
@@ -126,7 +152,7 @@ class _HomeCardState extends State<HomeCard> {
                           InkWell(
                             onTap: () {
                               sendClick(widget.categoryId, "twitter");
-                              _launchURL("${widget.twitterUrl}");
+                              _launchURL("${widget.twitterUrl}","twitter");
                             },
                             child: Image.asset(
                               "assets/icon/twitter.png",
@@ -135,7 +161,8 @@ class _HomeCardState extends State<HomeCard> {
                           ),
                           InkWell(
                             onTap: () {
-                              _launchURL("https://wa.me/${widget.whatsappUrl}");
+                              sendClick(widget.categoryId, "whatsapp");
+                              _launchURL("https://wa.me/${widget.whatsappUrl}","whatsapp");
                             },
                             child: Image.asset(
                               "assets/icon/whatsapp.png",
@@ -144,7 +171,7 @@ class _HomeCardState extends State<HomeCard> {
                           ),
                           InkWell(
                             onTap: () {
-                              _launchURL("tel:${widget.phone}");
+                              _launchURL("tel:${widget.phone}","mobile");
                               sendClick(widget.categoryId, "mobile");
                             },
                             child: Image.asset(

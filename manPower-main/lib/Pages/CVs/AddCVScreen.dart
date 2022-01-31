@@ -345,7 +345,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                     label:
                                         "${AppLocalizations.of(context)?.translate('email')}",
                                     inputType: TextInputType.emailAddress,
-                                    controller: _emailController, validator: (String ) { print(String); },
+                                    controller: _emailController,
                                   )
                                 : Container(),
                             SizedBox(height: 10),
@@ -422,7 +422,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                 label:
                                     "${AppLocalizations.of(context)?.translate('birthday')}",
                                 inputType: TextInputType.datetime,
-                                controller: _birthdateController, validator: (String ) { print("$String"); },
+                                controller: _birthdateController,
                               ),
                             ),
                             SizedBox(height: 10),
@@ -451,7 +451,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                               label:
                                   "${AppLocalizations.of(context)?.translate('contractTime')}",
                               inputType: TextInputType.number,
-                              controller: _contractPeriodController, validator: (String ) { print(String); },
+                              controller: _contractPeriodController,
                             ),
                             SizedBox(height: 10),
                             MainInputFiled(
@@ -459,7 +459,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                               label:
                                   "${AppLocalizations.of(context)?.translate('exp')}",
                               inputType: TextInputType.number,
-                              controller: _experinceController, validator: (String ) { print(String); },
+                              controller: _experinceController,
                             ),
                             SizedBox(height: 10),
                             MainInputFiled(
@@ -467,7 +467,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                               label:
                                   "${AppLocalizations.of(context)?.translate('passportNo')}",
                               inputType: TextInputType.text,
-                              controller: _passportNoController, validator: (String ) { print(String); },
+                              controller: _passportNoController,
                             ),
                             SizedBox(height: 10),
                             InkWell(
@@ -491,7 +491,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                 label:
                                     "${AppLocalizations.of(context)?.translate('passportissueDate')}",
                                 inputType: TextInputType.number,
-                                controller: _passportDateController,validator: (String ) { print(String); },
+                                controller: _passportDateController,
                               ),
                             ),
                             SizedBox(height: 10),
@@ -516,7 +516,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                 label:
                                     "${AppLocalizations.of(context)?.translate('passportEndDate')}",
                                 inputType: TextInputType.number,
-                                controller: _passportEndController, validator: (String ) { print(String); },
+                                controller: _passportEndController,
                               ),
                             ),
                             SizedBox(height: 10),
@@ -532,13 +532,13 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.7,
+                                              0.65,
                                           child: MainInputFiled(
                                             focusNode: whatsAppNode,
                                             label:
                                                 "${AppLocalizations.of(context)?.translate('whatsapp')}",
                                             inputType: TextInputType.phone,
-                                            controller: _whatsappController, validator: (String ) { print(String); },
+                                            controller: _whatsappController,
                                           ),
                                         ),
                                         InkWell(
@@ -564,12 +564,18 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          Text(
-                                                            "${Localizations.localeOf(context).languageCode == 'en' ? value.countryName : value.countryNameEn}",
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                fontSize: 12),
+                                                          Row(
+                                                            children: [
+                                                              Image.network(value.icon??"",height: 35,width: 35,),
+                                                              SizedBox(width: 10,),
+                                                              Text(
+                                                                "${Localizations.localeOf(context).languageCode == 'en' ? value.countryNameEn : value.countryName}",
+                                                                textAlign:
+                                                                    TextAlign.start,
+                                                                style: TextStyle(
+                                                                    fontSize: 12),
+                                                              ),
+                                                            ],
                                                           ),
                                                           Text(
                                                             "${value.dialing}",
@@ -590,9 +596,14 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                               }).toList(),
                                             );
                                           },
-                                          child: Text(
-                                              "${selectedCountry == null ?countryCode: selectedCountry!.dialing}"),
-                                        )
+                                          child: Row(
+                                            children: [
+                                              Image.network(selectedCountry == null ? data.country!.first.icon! : selectedCountry!.icon!,height: 35,width: 35,),
+                                              SizedBox(width: 10,),
+                                              Text(
+                                                  "${selectedCountry == null ? data.country!.first.dialing : selectedCountry!.dialing}"),
+                                            ],
+                                        )),
                                       ],
                                     ),
                                   )
@@ -610,13 +621,13 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.7,
+                                              0.65,
                                           child: MainInputFiled(
                                             focusNode: mobileNode,
                                             label:
                                                 "${AppLocalizations.of(context)?.translate('mobile')}",
                                             inputType: TextInputType.phone,
-                                            controller: _mobileController, validator: (String ) { print(String); },
+                                            controller: _mobileController,
                                           ),
                                         ),
                                         InkWell(
@@ -642,12 +653,18 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                                             MainAxisAlignment
                                                                 .spaceBetween,
                                                         children: [
-                                                          Text(
-                                                            "${Localizations.localeOf(context).languageCode == 'en' ? value.countryName : value.countryNameEn}",
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                fontSize: 12),
+                                                          Row(
+                                                            children: [
+                                                              Image.network(value.icon??"",height: 35,width: 35,),
+                                                              SizedBox(width: 10,),
+                                                              Text(
+                                                                "${Localizations.localeOf(context).languageCode == 'en' ? value.countryNameEn : value.countryName}",
+                                                                textAlign:
+                                                                    TextAlign.start,
+                                                                style: TextStyle(
+                                                                    fontSize: 12),
+                                                              ),
+                                                            ],
                                                           ),
                                                           Text(
                                                             "${value.dialing}",
@@ -668,8 +685,14 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                               }).toList(),
                                             );
                                           },
-                                          child: Text(
-                                              "${selectedCountry == null ? data.country!.first.dialing : selectedCountry!.dialing}"),
+                                          child: Row(
+                                            children: [
+                                              Image.network(selectedCountry == null ? data.country!.first.icon! : selectedCountry!.icon!,height: 35,width: 35,),
+                                              SizedBox(width: 10,),
+                                              Text(
+                                                  "${selectedCountry == null ? data.country!.first.dialing : selectedCountry!.dialing}"),
+                                            ],
+                                          ),
                                         )
                                       ],
                                     ),
@@ -682,7 +705,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                     label:
                                         "${AppLocalizations.of(context)?.translate('username')}",
                                     inputType: TextInputType.text,
-                                    controller: _usernameController, validator: (String ) { print(String); },
+                                    controller: _usernameController,
                                   )
                                 : Container(),
                             SizedBox(height: 10),
@@ -692,7 +715,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                     label:
                                         "${AppLocalizations.of(context)?.translate('password')}",
                                     inputType: TextInputType.visiblePassword,
-                                    controller: _passwordController, validator: (String ) { print(String); },
+                                    controller: _passwordController,
                                   )
                                 : Container(),
                             SizedBox(height: 10),
@@ -1400,6 +1423,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
     await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark placeMark = address.first;
     String? country = placeMark.country;
+    print(address.first);
     print(country);
     setState(() {
       for(var item in data.country!){

@@ -17,12 +17,20 @@ import 'package:manpower/models/AppInfo/Filters.dart' as filter;
 
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CompanyDetailsScreen extends StatefulWidget {
   final String? categoryId;
   final String? categoryName;
   final List subCategory;
   String lang;
+  String? whatsAppNumber;
+  String? phoneNumber;
+  String? faceBookUrl;
+  String? twitterUrl;
+  String? youtubeUrl;
+  String? instagramUrl;
+
   String? map;
   String? rating;
   String? ratingNo;
@@ -31,6 +39,12 @@ class CompanyDetailsScreen extends StatefulWidget {
   List<String?> slider = [];
   Clicks clicks;
   CompanyDetailsScreen(
+      this.faceBookUrl,
+      this.instagramUrl,
+      this.phoneNumber,
+      this.twitterUrl,
+      this.whatsAppNumber,
+      this.youtubeUrl,
       this.categoryId,
       this.categoryName,
       this.subCategory,
@@ -156,21 +170,21 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                       Container(
                         width: MediaQuery.of(context).size.width,
                         color: Colors.grey[300],
-                        padding: EdgeInsets.symmetric(vertical: 5),
+
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             IconButton(
                               icon: Image.asset(
                                 "assets/icon/callUs.png",
-                                scale: 10,
+                                scale: 9,
                               ),
                               onPressed: () => filterDialog(),
                             ),
                             IconButton(
                               icon: Image.asset(
                                 "assets/icon/map.png",
-                                scale: 13,
+                                scale: 9,
                               ),
                               onPressed: () => gMap(),
                             ),
@@ -178,18 +192,19 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                               icon: Icon(Icons.info),
                               onPressed: () => detailsDialog(),
                             ),
-                            IconButton(
-                              icon: Row(
+                            GestureDetector(
+                              child: Row(
                                 children: [
                                   Icon(
                                     Icons.star,
                                     color: mainOrangeColor,
+                                   
                                   ),
                                   Text(
                                       "${widget.rating == 'null' ? 0 : widget.rating} (${widget.ratingNo ?? 0})")
                                 ],
                               ),
-                              onPressed: () {
+                              onTap: () {
                                 showDialog(
                                   context: context,
                                   builder: (context) => RatingDialog(
@@ -864,6 +879,42 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
       },
     );
   }
+   _launchURL(String url,String nameOfSocialProgram) async {
+     if(url == "" || url == "https://wa.me/" || url == "tel:"){
+       _showDialog("the $nameOfSocialProgram is'nt available at the moment", "sorry");
+     }
+     if (await canLaunch(url)) {
+       await launch(url);
+     } else {
+       throw 'Could not launch $url';
+     }
+   }
+
+   sendClick(id, socialMedia) {
+     CompaniesService().socialMediaClicked(id, socialMedia);
+   }
+   void _showDialog(String content,String title) {
+     // flutter defined function
+     showDialog(
+       context: context,
+       builder: (BuildContext context) {
+         // return object of type Dialog
+         return AlertDialog(
+           title: new Text(title),
+           content: new Text(content),
+           actions: <Widget>[
+             // usually buttons at the bottom of the dialog
+             new FlatButton(
+               child: new Text("Close"),
+               onPressed: () {
+                 Navigator.of(context).pop();
+               },
+             ),
+           ],
+         );
+       },
+     );
+   }
 
   Future<void> filterDialog() async {
     return showDialog<void>(
@@ -887,7 +938,11 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                       ),
                       Padding(padding: EdgeInsets.only(top: 10)),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {  _launchURL("https://wa.me/${widget.whatsAppNumber}","whatsapp");
+                        sendClick(widget.categoryId, "whatsapp");
+
+
+                          },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -950,7 +1005,10 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          _launchURL("tel:${widget.phoneNumber}","mobile");
+                          sendClick(widget.categoryId, "mobile");
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -981,7 +1039,10 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          _launchURL("${widget.faceBookUrl}","facebook");
+                          sendClick(widget.categoryId, "facebook");
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1013,7 +1074,10 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          _launchURL("${widget.youtubeUrl}","youtube");
+                          sendClick(widget.categoryId, "youtube");
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1044,7 +1108,10 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          _launchURL("${widget.twitterUrl}","twitter");
+                          sendClick(widget.categoryId, "twitter");
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -1075,7 +1142,10 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          _launchURL("${widget.instagramUrl}","instagram");
+                          sendClick(widget.categoryId, "instagram");
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

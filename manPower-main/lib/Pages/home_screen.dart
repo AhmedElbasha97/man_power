@@ -372,6 +372,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       .push(MaterialPageRoute(
                                         builder: (context) =>
                                             CompanyDetailsScreen(
+                                              companies[index].social?.facebook,
+                                          companies[index].social?.instagram,
+                                          companies[index].companymobile,
+                                          companies[index].social?.twitter,
+                                          companies[index].whatsapp,
+                                          companies[index].social?.youtube,
                                           companies[index].companyId,
                                           Localizations.localeOf(context)
                                                       .languageCode ==

@@ -96,21 +96,32 @@ class Country {
     this.countryName,
     this.countryNameEn,
     this.dialing,
+    this.icon,
   });
 
   String? countryId;
   String? countryName;
   String? countryNameEn;
   String? dialing;
+  String? icon;
 
   factory Country.fromJson(Map<String, dynamic> json) => Country(
-        countryId: json["country_id"] == null ? null : json["country_id"],
-        countryName: json["country_name"] == null ? null : json["country_name"],
-        countryNameEn:
-            json["country_name_en"] == null ? null : json["country_name_en"],
-        dialing: json["dialing"] == null ? null : json["dialing"],
-      );
+    countryId: json["country_id"] == null ? null : json["country_id"],
+    countryName: json["country_name"] == null ? null : json["country_name"],
+    countryNameEn: json["country_name_en"] == null ? null : json["country_name_en"],
+    dialing: json["dialing"] == null ? null : json["dialing"],
+    icon: json["icon"] == null ? null : json["icon"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "country_id": countryId == null ? null : countryId,
+    "country_name": countryName == null ? null : countryName,
+    "country_name_en": countryNameEn == null ? null : countryNameEn,
+    "dialing": dialing == null ? null : dialing,
+    "icon": icon == null ? null : icon,
+  };
 }
+
 
 class Education {
   Education({
