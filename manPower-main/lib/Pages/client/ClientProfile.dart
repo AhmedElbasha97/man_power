@@ -11,6 +11,7 @@ import 'package:manpower/Pages/client/ClientWallet.dart';
 import 'package:manpower/Pages/client/myFavCvs.dart';
 import 'package:manpower/models/client/userClient.dart';
 import 'package:manpower/services/AuthService.dart';
+import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ClientProfileScreen extends StatefulWidget {
@@ -51,9 +52,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
       ),
       drawer: isLoading ? Container() : MainDrawer(id, type),
       body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Loader()
           : Padding(
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child: ListView(
@@ -64,6 +63,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                         CircleAvatar(
                           radius: 50,
                           backgroundColor: mainOrangeColor,
+                          backgroundImage: AssetImage("assets/icon/employerPlaceHolder.png",),
                         )
                       ],
                     ),

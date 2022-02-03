@@ -14,6 +14,7 @@ import 'package:manpower/services/OtherServices.dart/appDataService.dart';
 import 'package:manpower/widgets/Employees/employeesListCard.dart';
 import 'package:manpower/I10n/app_localizations.dart';
 import 'package:manpower/models/AppInfo/Filters.dart' as filter;
+import 'package:manpower/widgets/loader.dart';
 
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -123,9 +124,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
           ),
         ),
         body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
+            ? Loader()
             : GestureDetector(
                 onTap: () => searchFocusNode.unfocus(),
                 child: SingleChildScrollView(
@@ -881,7 +880,9 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
   }
    _launchURL(String url,String nameOfSocialProgram) async {
      if(url == "" || url == "https://wa.me/" || url == "tel:"){
-       _showDialog("the $nameOfSocialProgram is'nt available at the moment", "sorry");
+       _showDialog(Localizations.localeOf(context).languageCode == "en"
+           ?"the $nameOfSocialProgram is not available at the moment": "منصة"+" "+nameOfSocialProgram+" "+" غير متاحه الان",  Localizations.localeOf(context).languageCode == "en"
+           ?"sorry":"عذرا");
      }
      if (await canLaunch(url)) {
        await launch(url);
@@ -905,7 +906,8 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
            actions: <Widget>[
              // usually buttons at the bottom of the dialog
              new FlatButton(
-               child: new Text("Close"),
+               child: new Text(Localizations.localeOf(context).languageCode == "en"
+                   ?"Close":"اغلق"+),
                onPressed: () {
                  Navigator.of(context).pop();
                },

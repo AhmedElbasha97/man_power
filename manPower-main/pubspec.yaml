@@ -37,8 +37,13 @@ dependencies:
   carousel_slider: ^4.0.0
   share_plus: ^3.0.4
   geocoding: ^2.0.0
+  flutter_google_places_hoc081098: ^1.0.0-nullsafety.5
+  google_api_headers: ^1.1.1
+  google_maps_webservice: ^0.0.20-nullsafety.5
   youtube_player_flutter: ^8.0.0
   geolocator: ^7.7.1
+  webview_flutter: ^2.0.4
+  expandable: ^5.0.1
   google_maps_flutter: ^2.1.1
   font_awesome_flutter: ^9.2.0
   adaptive_action_sheet: ^2.0.1

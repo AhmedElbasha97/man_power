@@ -12,6 +12,9 @@ import 'package:manpower/models/Companies/Categories.dart';
 import 'package:manpower/models/Companies/companyInfo.dart';
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
+import 'package:manpower/widgets/loader.dart';
+
+import 'map_screen.dart';
 
 class CompanyEditProfile extends StatefulWidget {
   CompanyInfo? data;
@@ -143,11 +146,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
         key: scaffoldKey,
         appBar: AppBar(),
         body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(
-                  backgroundColor: mainOrangeColor,
-                ),
-              )
+            ? Loader()
             : ListView(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 children: [
@@ -296,29 +295,20 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                       AppLocalizations.of(context)?.translate('selectOnMap')??"",
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return Container();
-                            // return PlacePicker(
-                            //   apiKey: "AIzaSyAOqYzuHM0iK0ol2o7L_h7sNArhUl6XRmU",
-                            //   initialPosition: LatLng(-33.8567844, 151.213108),
-                            //   useCurrentLocation: true,
-                            //   selectInitialPosition: true,
-                            //   onPlacePicked: (result) {
-                            //     try {
-                            //       selectedPlace = result;
-                            //       addressController.text =
-                            //           selectedPlace!.formattedAddress!;
-                            //       Navigator.of(context).pop();
-                            //       setState(() {});
-                            //     } catch (e) {}
-                            //   },
-                            // );
-                          },
-                        ),
-                      );
+                      void _navigateAndDisplaySelection(BuildContext context) async {
+                        // Navigator.push returns a Future that completes after calling
+                        // Navigator.pop on the Selection Screen.
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MapScreen()),
+                        );
+
+                        // After the Selection Screen returns a result, hide any previous snackbars
+                        // and show the new result.
+                        ScaffoldMessenger.of(context)
+                          ..removeCurrentSnackBar()
+                          ..showSnackBar(SnackBar(content: Text('$result')));
+                      }
                     },
                   ),
                   SizedBox(height: 10),

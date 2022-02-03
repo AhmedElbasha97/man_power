@@ -10,6 +10,7 @@ import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
 import 'package:manpower/services/workersService.dart';
 import 'package:manpower/widgets/Companies/companyCategoryCard.dart';
+import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchForEmployee extends StatefulWidget {
@@ -81,7 +82,7 @@ class _SearchForEmployeeState extends State<SearchForEmployee> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: isLoading ? Container() : MainDrawer(id, type),
+      drawer: isLoading ? Loader() : MainDrawer(id, type),
       appBar: AppBar(
           centerTitle: true,
           title: Padding(
@@ -89,9 +90,7 @@ class _SearchForEmployeeState extends State<SearchForEmployee> {
               child: Image.asset("assets/icon/logoAppBar.png",
                   scale: 4, fit: BoxFit.scaleDown))),
       body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Loader()
           : ListView(
               children: [
                 Padding(padding: EdgeInsets.symmetric(vertical: 5)),

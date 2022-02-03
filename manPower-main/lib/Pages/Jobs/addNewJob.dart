@@ -4,6 +4,7 @@ import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/Global/widgets/MainInputFiled.dart';
 import 'package:manpower/I10n/app_localizations.dart';
 import 'package:manpower/services/OtherServices.dart/jobsService.dart';
+import 'package:manpower/widgets/loader.dart';
 
 class AddNewJobScreen extends StatefulWidget {
   @override
@@ -29,11 +30,7 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
     return Scaffold(
       appBar: AppBar(),
       body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(
-                backgroundColor: mainOrangeColor,
-              ),
-            )
+          ? Loader()
           : ListView(
               padding: EdgeInsets.all(15),
               children: [

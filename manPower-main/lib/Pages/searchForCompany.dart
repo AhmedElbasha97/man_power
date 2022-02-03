@@ -8,6 +8,7 @@ import 'package:manpower/models/Companies/Categories.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
 import 'package:manpower/widgets/Companies/companyCategoryCard.dart';
+import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CompanySearchScreen extends StatefulWidget {
@@ -76,7 +77,7 @@ class _CompanySearchScreenState extends State<CompanySearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: isLoading ? Container() : MainDrawer(id, type),
+        drawer: isLoading ? Loader() : MainDrawer(id, type),
         appBar: AppBar(
             centerTitle: true,
             title: Padding(

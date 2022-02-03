@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:manpower/models/Companies/Employees.dart';
 import 'package:manpower/services/workersService.dart';
 import 'package:manpower/widgets/Employees/employeesListCard.dart';
+import 'package:manpower/widgets/loader.dart';
 
 class MyCvsScreen extends StatefulWidget {
   @override
@@ -28,9 +29,7 @@ class _MyCvsScreenState extends State<MyCvsScreen> {
     return Scaffold(
         appBar: AppBar(),
         body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
+            ? Loader()
             : ListView.builder(
                 padding: EdgeInsets.all(5),
                 itemCount: workers.length,

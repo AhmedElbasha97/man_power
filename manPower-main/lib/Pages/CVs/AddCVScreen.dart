@@ -16,6 +16,7 @@ import 'package:manpower/models/AppInfo/Filters.dart';
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/services/OtherServices.dart/SendCvService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
+import 'package:manpower/widgets/loader.dart';
 
 class AddCvScreen extends StatefulWidget {
   String? id;
@@ -135,11 +136,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
               child: Image.asset("assets/icon/logoAppBar.png",
                   scale: 4, fit: BoxFit.scaleDown))),
       body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(
-                backgroundColor: mainOrangeColor,
-              ),
-            )
+          ? Loader()
           : InkWell(
               onTap: () {
                 unfocus();
@@ -532,7 +529,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.65,
+                                              0.62,
                                           child: MainInputFiled(
                                             focusNode: whatsAppNode,
                                             label:
@@ -621,7 +618,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.65,
+                                              0.62,
                                           child: MainInputFiled(
                                             focusNode: mobileNode,
                                             label:

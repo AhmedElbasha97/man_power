@@ -8,6 +8,7 @@ import 'package:manpower/Pages/client/ClientProfile.dart';
 import 'package:manpower/models/client/userClient.dart';
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/services/AuthService.dart';
+import 'package:manpower/widgets/loader.dart';
 
 class ClientEditProfile extends StatefulWidget {
   UserClientMOdel? data;
@@ -48,11 +49,7 @@ class _ClientEditProfileState extends State<ClientEditProfile> {
         key: scaffoldKey,
         appBar: AppBar(),
         body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(
-                  backgroundColor: mainOrangeColor,
-                ),
-              )
+            ? Loader()
             : ListView(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 children: [

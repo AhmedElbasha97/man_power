@@ -3,6 +3,7 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:manpower/models/Companies/Employees.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:manpower/widgets/Employees/employeesListCard.dart';
+import 'package:manpower/widgets/loader.dart';
 
 class CompanyCvScreen extends StatefulWidget {
   final String? id;
@@ -62,7 +63,7 @@ class _CompanyCvScreenState extends State<CompanyCvScreen> {
           }
         },
         child: isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? Loader()
             : Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,

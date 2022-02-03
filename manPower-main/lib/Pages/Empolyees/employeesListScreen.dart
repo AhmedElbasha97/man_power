@@ -11,6 +11,7 @@ import 'package:manpower/models/Companies/Employees.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
 import 'package:manpower/services/workersService.dart';
 import 'package:manpower/widgets/Employees/employeesListCard.dart';
+import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EmployeesScreen extends StatefulWidget {
@@ -102,7 +103,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                 scale: 4.5, fit: BoxFit.scaleDown)),
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? Loader()
           : LazyLoadScrollView(
               scrollOffset: 300,
               onEndOfPage: () {
@@ -455,7 +456,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                             child: Row(
                               mainAxisAlignment:MainAxisAlignment.center,
                               children: [
-                                Text("Loading"),
+                                Text(Localizations.localeOf(context).languageCode == "en" ?"Loading":"جاري التحميل"),
                                 SizedBox(width: 10,),
                                 CircularProgressIndicator()
 

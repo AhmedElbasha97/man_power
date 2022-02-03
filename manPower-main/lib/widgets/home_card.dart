@@ -1,7 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -34,7 +32,9 @@ class HomeCard extends StatefulWidget {
 class _HomeCardState extends State<HomeCard> {
   _launchURL(String url,String nameOfSocialProgram) async {
     if(url == "" || url == "https://wa.me/" || url == "tel:"){
-      _showDialog("the $nameOfSocialProgram is'nt available at the moment", "sorry");
+      _showDialog( Localizations.localeOf(context).languageCode == "en"
+          ?"the $nameOfSocialProgram is not available at the moment": "منصة"+" "+nameOfSocialProgram+" "+" غير متاحه الان",  Localizations.localeOf(context).languageCode == "en"
+          ?"sorry":"عذرا");
     }
     if (await canLaunch(url)) {
       await launch(url);
@@ -59,7 +59,8 @@ class _HomeCardState extends State<HomeCard> {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
-              child: new Text("Close"),
+              child: new Text( Localizations.localeOf(context).languageCode == "en"
+                  ?"Close":"اغلق"),
               onPressed: () {
                 Navigator.of(context).pop();
               },

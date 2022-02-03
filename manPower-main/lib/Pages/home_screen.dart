@@ -12,13 +12,12 @@ import 'package:manpower/models/Companies/Employees.dart';
 import 'package:manpower/models/Companies/company.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:manpower/services/workersService.dart';
 import 'package:manpower/widgets/Employees/employeesListCard.dart';
 import 'package:manpower/widgets/home_card.dart';
+import 'package:manpower/widgets/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,10 +30,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isLoading = true;
+  bool isSearching = false;
+ bool loadingMoreData = false;
   bool isLoadingMoreData = false;
   bool isSearchActive = false;
   bool errorSearch = false;
-  bool more = true;
+  bool more = false;
+  List<String> filtersValue =["low_rate","high_rate"];
+  List<String> filtersTitlesEn =["from High Rating To Low Rating","From Low Rating To High Rating"];
+  List<String> filtersTitlesAR =["الترتيب من الاكثر تقيما إلى الاقل تقيما","الترتيب من الأقل تقيما إلى الاكثر تقيما"];
+
   bool isCategoryOn = true;
   bool isLoadingProducts = false;
   final CarouselController _controller = CarouselController();
@@ -42,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _current = 0;
   int apiPage = 1;
   int totalProductsInCart = 0;
-
+ String selectedFilter="";
   List<HomeSlider> imgList = [];
    List<Widget?>? child;
    List? photoSliderList;
@@ -99,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
     cvs.addAll(await WorkerService()
         .getWorkerByCompanyCat(id: widget.categoryId, page: apiPage));
     isLoadingProducts = false;
+    apiPage++;
     setState(() {});
   }
 
@@ -135,7 +141,16 @@ class _HomeScreenState extends State<HomeScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     type = prefs.getString("type");
     id = prefs.getString("id");
+
+   companies = await CompaniesService().getCompanies(
+        widget.categoryId,
+        page: apiPage,
+        searchKey: searchController.text);
     if (more) {
+      setState(() {
+        loadingMoreData = true;
+      });
+      apiPage++;
       List<Company> newComs = await CompaniesService().getCompanies(
           widget.categoryId,
           page: apiPage,
@@ -144,6 +159,9 @@ class _HomeScreenState extends State<HomeScreen> {
       if (newComs.isEmpty) {
         more = false;
       }
+      setState(() {
+        loadingMoreData = false;
+      });
     }
     isLoading = false;
     setState(() {});
@@ -152,6 +170,17 @@ class _HomeScreenState extends State<HomeScreen> {
   getData() {
     getCompnaies();
     getPhotoSlider();
+  }
+  searchingForCompany() async {
+    setState(() {
+      isSearching=true;
+    });
+    print(searchController.text);
+    companies = await CompaniesService().getCompanies(
+        widget.categoryId,
+        page: apiPage,
+        searchKey: searchController.text);
+    isSearching=false;
   }
 
   @override
@@ -182,18 +211,17 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
       ),
       body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Loader()
           : LazyLoadScrollView(
               scrollOffset: 1000,
               onEndOfPage: () {
                 if (isCategoryOn) {
-                  apiPage++;
+
                   print(apiPage);
+                  more=true;
                   getCompnaies();
                 } else {
-                  apiPage++;
+
                   print(apiPage);
                   getCv();
                 }
@@ -201,6 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
+
                     isSearchActive
                         ? Padding(
                             padding: EdgeInsets.symmetric(vertical: 5),
@@ -216,10 +245,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onChanged: (value) {
                                   if (value == "") {
                                     apiPage = 1;
-                                    isLoading = true;
                                     getCompnaies();
                                     setState(() {});
                                   }
+
                                 },
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(
@@ -247,8 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         searchNode.unfocus();
                                         apiPage = 1;
                                         companies.clear();
-                                        getCompnaies();
-                                        isLoading = true;
+                                        searchingForCompany();
                                         setState(() {});
                                       },
                                       icon: Icon(
@@ -264,6 +292,69 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ))
                         : Container(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height*0.05 ,
+                        width: MediaQuery.of(context).size.width*0.9 ,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                          border: Border.all(width: 0.5, color: mainOrangeColor),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              blurRadius: 5, //soften the shadow
+                              spreadRadius: 0, //extend the shadow
+                              offset: Offset(
+                                0.0, // Move to right 10  horizontally
+                                3.0, // Move to bottom 5 Vertically
+                              ),
+                            )
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: DropdownButton<String>(
+                              isExpanded: true,
+                              isDense: true,
+                              hint: Text(
+                                  Localizations.localeOf(context).languageCode == "en" ?"filtering through rating":"ترتيب عن طريق التقيم",
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                  )),
+                              underline: SizedBox(),
+                              items: filtersValue
+                                  .map
+                              <DropdownMenuItem<String>>((value){
+                                var index = filtersValue.indexOf(value);
+                                return new DropdownMenuItem<String>(
+
+                                  value: value,
+                                  child: new Text(
+                                      Localizations.localeOf(
+                                          context)
+                                          .languageCode ==
+                                          "en"
+                                          ? filtersTitlesEn[index]
+                                          : filtersTitlesAR[index],
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      )),
+                                );})
+                                  .toList(),
+                              onChanged: (value) {
+                                isLoading = true;
+                                setState(() {});
+                                selectedFilter = value.toString();
+                                getData();
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                     CarouselSlider.builder(
                       carouselController: _controller,
@@ -360,18 +451,37 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     isCategoryOn
-                        ? ListView.builder(
+                        ?isSearching? Loader(width: MediaQuery.of(context).size.width ,
+                      height: MediaQuery.of(context).size.height * 0.5,):ListView.builder(
                             primary: false,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: companies.length,
+                            itemCount: loadingMoreData?companies.length+1:companies.length,
                             itemBuilder: (context, index) {
-                              return InkWell(
+                              return loadingMoreData&&index==companies.length?Container(
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                height: MediaQuery.of(context).size.height * 0.22,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment:MainAxisAlignment.center,
+                                    children: [
+                                      Text(Localizations.localeOf(context).languageCode == "en" ?"Loading":"جاري التحميل"),
+                                      SizedBox(width: 10,),
+                                      CircularProgressIndicator()
+
+                                    ],
+                                  ),
+                                ),
+                              ):InkWell(
                                 onTap: () {
                                   Navigator.of(context)
                                       .push(MaterialPageRoute(
                                         builder: (context) =>
-                                            CompanyDetailsScreen(
+                                        CompanyDetailsScreen(
                                               companies[index].social?.facebook,
                                           companies[index].social?.instagram,
                                           companies[index].companymobile,
@@ -432,12 +542,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                           )
                         : isLoadingProducts
-                            ? Padding(
-                                padding: EdgeInsets.only(top: 50),
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              )
+                            ? Loader(width: MediaQuery.of(context).size.width ,
+                      height: MediaQuery.of(context).size.height * 0.5,)
                             : ListView.builder(
                                 primary: false,
                                 shrinkWrap: true,

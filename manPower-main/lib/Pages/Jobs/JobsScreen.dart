@@ -3,6 +3,7 @@ import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/Pages/Jobs/jobdetails.dart';
 import 'package:manpower/models/other/vacancy.dart';
 import 'package:manpower/services/OtherServices.dart/jobsService.dart';
+import 'package:manpower/widgets/loader.dart';
 
 class JobsScreen extends StatefulWidget {
   @override
@@ -35,9 +36,7 @@ class _JobsScreenState extends State<JobsScreen> {
               child: Image.asset("assets/icon/logoAppBar.png",
                   scale: 4, fit: BoxFit.scaleDown))),
       body: isloading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Loader()
           : ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               itemCount: jobs.length,

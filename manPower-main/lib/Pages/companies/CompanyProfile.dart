@@ -9,6 +9,7 @@ import 'package:manpower/Pages/companies/CompanyEditProfile.dart';
 import 'package:manpower/Pages/companies/companyWallet.dart';
 import 'package:manpower/models/Companies/companyInfo.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
+import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CompanyProfileScreen extends StatefulWidget {
@@ -44,9 +45,7 @@ class _CompanyProfileScreenState extends State<CompanyProfileScreen> {
       appBar: AppBar(),
       drawer: MainDrawer(id, type),
       body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Loader()
           : Padding(
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child: ListView(
@@ -57,7 +56,7 @@ class _CompanyProfileScreenState extends State<CompanyProfileScreen> {
                         CircleAvatar(
                           radius: 50,
                           backgroundImage:
-                              NetworkImage("${info?.data?.image1}"),
+                          info?.data?.image1!="https://manpower-kw.com/uploads/0"?NetworkImage("${info?.data?.image1}"):AssetImage('assets/icon/companyplaceholder.png') as ImageProvider,
                         ),
                         Text(
                           "${Localizations.localeOf(context).languageCode == "en" ? info!.data?.nameAr : info!.data?.nameEn}",

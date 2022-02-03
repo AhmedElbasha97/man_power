@@ -7,6 +7,7 @@ import 'package:manpower/Pages/Chat/chatList.dart';
 import 'package:manpower/Pages/Empolyees/EditProfileData.dart';
 import 'package:manpower/models/Companies/Employees.dart';
 import 'package:manpower/services/workersService.dart';
+import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EmployeeProfile extends StatefulWidget {
@@ -40,9 +41,7 @@ class _EmployeeProfileState extends State<EmployeeProfile> {
       appBar: AppBar(),
       drawer: isLoading ? Container() : MainDrawer(id, type),
       body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Loader()
           : ListView(
               padding: EdgeInsets.all(10),
               children: [

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:manpower/models/AppInfo/about.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
+import 'package:manpower/widgets/loader.dart';
 
 class AboutAppScreen extends StatefulWidget {
   @override
@@ -41,7 +42,7 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
       ),
       body: Scaffold(
         body: loading
-            ? Center(child: CircularProgressIndicator())
+            ? Loader()
             : ListView(
                 children: [
                   SizedBox(height: 10,),

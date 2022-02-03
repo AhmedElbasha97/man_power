@@ -2,6 +2,7 @@ import 'package:manpower/I10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:manpower/models/AppInfo/termsData.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
+import 'package:manpower/widgets/loader.dart';
 
 class TermsScreen extends StatefulWidget {
   @override
@@ -37,9 +38,7 @@ class _TermsScreenState extends State<TermsScreen> {
         centerTitle: true,
       ),
       body: isloading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Loader()
           : Scaffold(
               body: SingleChildScrollView(
                 child: Center(

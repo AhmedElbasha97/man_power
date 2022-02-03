@@ -3,6 +3,7 @@ import 'package:manpower/I10n/app_localizations.dart';
 import 'package:manpower/models/chat/chat.dart';
 import 'package:manpower/services/chatService.dart';
 import 'package:manpower/widgets/Chat/widgets/chatbubble.dart';
+import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -124,9 +125,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
         body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
+            ? Loader()
             : ListView(
                 children: [
                   Container(

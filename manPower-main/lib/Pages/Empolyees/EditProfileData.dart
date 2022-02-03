@@ -14,6 +14,7 @@ import 'package:manpower/models/Companies/Employees.dart' as emp;
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/services/OtherServices.dart/SendCvService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
+import 'package:manpower/widgets/loader.dart';
 
 class EditCvScreen extends StatefulWidget {
   String? id;
@@ -89,11 +90,7 @@ class _EditCvScreenState extends State<EditCvScreen> {
               child: Image.asset("assets/icon/logoAppBar.png",
                   scale: 4, fit: BoxFit.scaleDown))),
       body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(
-                backgroundColor: mainOrangeColor,
-              ),
-            )
+          ? Loader()
           : Container(
               color: Colors.grey[200],
               child: ListView(

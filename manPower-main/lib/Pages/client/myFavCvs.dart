@@ -7,6 +7,7 @@ import 'package:manpower/services/ClientService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
 import 'package:manpower/services/workersService.dart';
 import 'package:manpower/widgets/Employees/employeesListCard.dart';
+import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyFavCvsScreen extends StatefulWidget {
@@ -58,9 +59,7 @@ class _MyFavCvsScreenState extends State<MyFavCvsScreen> {
     return Scaffold(
         appBar: AppBar(),
         body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
+            ? Loader()
             : ListView.builder(
                 padding: EdgeInsets.all(5),
                 itemCount: workers.length,

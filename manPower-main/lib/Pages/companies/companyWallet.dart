@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manpower/models/Companies/walletItemCompany.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
+import 'package:manpower/widgets/loader.dart';
 
 class TransactionScreen extends StatefulWidget {
   @override
@@ -28,7 +29,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
     return Scaffold(
       appBar: AppBar(),
       body: isloading
-          ? Center(child: CircularProgressIndicator())
+          ? Loader()
           : ListView.builder(
               itemCount: transctions.length,
               itemBuilder: (BuildContext context, int index) {

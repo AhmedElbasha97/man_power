@@ -1,8 +1,10 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/models/AppInfo/packages.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
+import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PackagesScreen extends StatefulWidget {
@@ -34,9 +36,7 @@ class _PackagesScreenState extends State<PackagesScreen> {
     return Scaffold(
       appBar: AppBar(),
       body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Loader()
           : ListView.builder(
               itemCount: list.length,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -49,24 +49,71 @@ class _PackagesScreenState extends State<PackagesScreen> {
                           "http://manpower-kw.com/api/pay?client_id=$id&package_id=${list[index].packageId}");
                     },
                     tileColor: mainOrangeColor,
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Icon(Icons.money, color: Colors.white),
-                        Text(
-                          Localizations.localeOf(context).languageCode == "en"
-                              ? "${list[index].titleEn}"
-                              : "${list[index].titleAr}",
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                        Text(
-                          "${list[index].value}",
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        )
-                      ],
+                    title:  ExpandableNotifier(
+
+                    child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                    children: <Widget>[
+                    ScrollOnExpand(
+                    scrollOnExpand: true,
+                    scrollOnCollapse: false,
+                    child: ExpandablePanel(
+                    theme: const ExpandableThemeData(
+                    headerAlignment:
+                    ExpandablePanelHeaderAlignment.center,
+                    tapBodyToCollapse: true,
                     ),
-                  ),
+                    header: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                    height:
+                    MediaQuery.of(context).size.height *
+                0.04,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Icon(Icons.money, color: Colors.white),
+                    Text(
+                      Localizations.localeOf(context).languageCode == "en"
+                          ? "${list[index].titleEn}"
+                          : "${list[index].titleAr}",
+                      softWrap: true,
+                      style: TextStyle(fontSize: 15, color: Colors.white),
+                    ),
+                    Text(
+                      "${list[index].value}",
+                      softWrap: true,
+                      style: TextStyle(fontSize: 15, color: Colors.white),
+                    )
+                  ],
+                ),
+                ),
+                ),
+                expanded:Text( Localizations.localeOf(context).languageCode == "en" ?list[index].featuresEn??"":list[index].featuresAr??"",style: TextStyle(fontSize: 15, color: Colors.white),),
+                collapsed: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(Localizations.localeOf(context).languageCode == "en"
+                      ?"for More Information":"للمزيد من المعلومات",style: TextStyle(fontSize: 15, color: Colors.white),),
+                ),
+                builder: (_, collapsed, expanded) {
+                return Padding(
+                padding: EdgeInsets.only(
+                left: 10, right: 10, bottom: 10),
+                child: Expandable(
+                collapsed: collapsed,
+                expanded: expanded,
+                theme: const ExpandableThemeData(
+                crossFadePoint: 0),
+                ),
                 );
+                },
+                ),
+                ),
+                ],
+                ),
+                  ),
+                ),),);
               },
             ),
     );

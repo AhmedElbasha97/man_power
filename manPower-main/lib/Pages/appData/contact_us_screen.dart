@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:manpower/I10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:manpower/widgets/loader.dart';
 // import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -64,7 +65,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: isLoading? Center(child: CircularProgressIndicator(),):SingleChildScrollView(
+      body: isLoading?Loader():SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[

@@ -11,6 +11,7 @@ import 'package:manpower/Pages/companies/CompanyProfile.dart';
 import 'package:manpower/models/Companies/Categories.dart';
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
+import 'package:manpower/widgets/loader.dart';
 
 class CompanySignUp extends StatefulWidget {
   @override
@@ -47,11 +48,7 @@ class _CompanySignUpState extends State<CompanySignUp> {
         key: scaffoldKey,
         appBar: AppBar(),
         body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(
-                  backgroundColor: mainOrangeColor,
-                ),
-              )
+            ? Loader()
             : ListView(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 children: [
