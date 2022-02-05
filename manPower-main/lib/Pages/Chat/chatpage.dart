@@ -7,9 +7,9 @@ import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatScreen extends StatefulWidget {
-  String? chatId;
-  String? workerId;
-  String? clientId;
+ final String? chatId;
+ final String? workerId;
+ final String? clientId;
 
   @override
   _ChatScreenState createState() => _ChatScreenState();

@@ -15,7 +15,6 @@ class _SplashScreenState extends State<SplashScreen> {
    String? token;
   checkToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? type = prefs.getString("type");
     String? id = prefs.getString("id");
     Future.delayed(
         Duration(seconds: 2),

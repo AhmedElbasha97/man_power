@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/widgets/MainInputFiled.dart';
@@ -12,12 +11,13 @@ import 'package:manpower/models/Companies/Categories.dart';
 import 'package:manpower/models/Companies/companyInfo.dart';
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
+import 'package:manpower/widgets/button_widget.dart';
 import 'package:manpower/widgets/loader.dart';
 
 import 'map_screen.dart';
 
 class CompanyEditProfile extends StatefulWidget {
-  CompanyInfo? data;
+  final CompanyInfo? data;
   CompanyEditProfile(this.data);
   @override
   _CompanyEditProfileState createState() => _CompanyEditProfileState();
@@ -52,7 +52,20 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
     getCategories();
     fillData();
   }
+  void _navigateAndDisplaySelection(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MapScreen()),
+    );
 
+    // After the Selection Screen returns a result, hide any previous snackbars
+    // and show the new result.
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text('$result')));
+  }
   fillData() {
     _nameController =
         new TextEditingController(text: widget.data?.data?.nameAr);
@@ -77,7 +90,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
   }
 
   getPhotos(int index, ImageSource src) async {
-    final pickedFile = await picker.getImage(source: src);
+    final pickedFile = await picker.pickImage(source: src);
     if (pickedFile != null) {
       if (_images.isNotEmpty) {
         if (_images.asMap()[index] == null) {
@@ -290,26 +303,17 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                         )),
                   ),
                   SizedBox(height: 10),
-                  RaisedButton(
-                    child: Text(
-                      AppLocalizations.of(context)?.translate('selectOnMap')??"",
-                    ),
+                  CustomElevatedButton(
+                    bordersColor:mainOrangeColor ,
+                    hasTextStyle: true,
+                    text:  AppLocalizations.of(context)?.translate('selectOnMap')??"",
+                    textStyle: TextStyle(color: Colors.black),
+                    background: Colors.white,
+                    borderReduis: 10.0,
                     onPressed: () {
-                      void _navigateAndDisplaySelection(BuildContext context) async {
-                        // Navigator.push returns a Future that completes after calling
-                        // Navigator.pop on the Selection Screen.
-                        final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MapScreen()),
-                        );
-
-                        // After the Selection Screen returns a result, hide any previous snackbars
-                        // and show the new result.
-                        ScaffoldMessenger.of(context)
-                          ..removeCurrentSnackBar()
-                          ..showSnackBar(SnackBar(content: Text('$result')));
-                      }
-                    },
+                      _navigateAndDisplaySelection(context);
+                    }, width: MediaQuery.of(context).size.height * 0.9,
+                    height: MediaQuery.of(context).size.height * 0.05,
                   ),
                   SizedBox(height: 10),
                   MainInputFiled(
@@ -402,7 +406,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
   }
 
   getPhoto(ImageSource src) async {
-    final pickedFile = await picker.getImage(source: src);
+    final pickedFile = await picker.pickImage(source: src);
     if (pickedFile != null) {
       img = File(pickedFile.path);
     }
@@ -437,7 +441,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
       final snackBar = SnackBar(
           content: Text(
               "${AppLocalizations.of(context)?.translate('signinSuccessMsg')}"));
-      scaffoldKey.currentState?.showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => CompanyProfileScreen(),
       ));
@@ -446,7 +450,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
           content: Text(Localizations.localeOf(context).languageCode == "en"
               ? result.messageEn!
               : result.messageAr!));
-      scaffoldKey.currentState?.showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
     isLoading = false;
     setState(() {});

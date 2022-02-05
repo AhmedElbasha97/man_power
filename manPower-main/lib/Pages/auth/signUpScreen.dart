@@ -103,7 +103,7 @@ class _ClientSignUpState extends State<ClientSignUp> {
       final snackBar = SnackBar(
           content: Text(
               "${AppLocalizations.of(context)?.translate('signinSuccessMsg')}"));
-      scaffoldKey.currentState?.showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => ClientProfileScreen(),
       ));
@@ -112,7 +112,7 @@ class _ClientSignUpState extends State<ClientSignUp> {
           content: Text(Localizations.localeOf(context).languageCode == "en"
               ? result?.messageEn??""
               : result?.messageAr??""));
-      scaffoldKey.currentState?.showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
     isLoading = false;
     setState(() {});

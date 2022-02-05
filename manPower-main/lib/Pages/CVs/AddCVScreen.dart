@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -18,6 +17,7 @@ import 'package:manpower/services/OtherServices.dart/SendCvService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
 import 'package:manpower/widgets/loader.dart';
 
+// ignore: must_be_immutable
 class AddCvScreen extends StatefulWidget {
   String? id;
   AddCvScreen({this.id = "0"});
@@ -34,8 +34,6 @@ class _AddCvScreenState extends State<AddCvScreen> {
   final picker = ImagePicker();
   List<String> imgName = ["السيرة الذانية", "صورة شخصية", "صورة كاملة"];
   List<String> imgNameEn = ["CV", "Profile Picture", "Full Picture"];
-  late Position _currentPosition;
-  late String _currentAddress;
    String? genderValue;
    Occupation? selectedJob;
    Gender? selectedGender;
@@ -977,7 +975,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                       label:
                                           "${status == null ? AppLocalizations.of(context)?.translate('socialStatus') : Localizations.localeOf(context).languageCode == "en" ? status!.statusNameEn : status!.statusName}",
                                       inputType: TextInputType.text,
-                                      enabled: false, validator: (String ) { print(String); },
+                                      enabled: false,
                                     ),
                                   ),
                             SizedBox(height: 10),
@@ -988,7 +986,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                     label:
                                         "${AppLocalizations.of(context)?.translate('kidsNo')}",
                                     inputType: TextInputType.number,
-                                    controller: _childrenNoController, validator: (String ) {  },
+                                    controller: _childrenNoController,
                                   ),
                             SizedBox(height: 10),
                             isSpecialJob
@@ -1351,7 +1349,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
   }
 
   getPhoto(int index, ImageSource src) async {
-    final pickedFile = await picker.getImage(source: src);
+    final pickedFile = await picker.pickImage(source: src);
     if (pickedFile != null) {
       if (_images.isNotEmpty) {
         if (_images.asMap()[index] == null) {
@@ -1491,7 +1489,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                 ? result?.messageEn??""
                 : result?.messageAr??""));
 
-        scaffoldKey.currentState?.showSnackBar(snackBar);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
         isLoading = false;
         setState(() {});
       }

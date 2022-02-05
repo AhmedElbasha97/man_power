@@ -1,7 +1,6 @@
 import 'package:flutter_html/flutter_html.dart';
 import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/I10n/app_localizations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:manpower/models/AppInfo/about.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';

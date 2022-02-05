@@ -11,7 +11,7 @@ import 'package:manpower/services/AuthService.dart';
 import 'package:manpower/widgets/loader.dart';
 
 class ClientEditProfile extends StatefulWidget {
-  UserClientMOdel? data;
+  final UserClientMOdel? data;
   ClientEditProfile({ this.data});
   @override
   _ClientEditProfileState createState() => _ClientEditProfileState();
@@ -128,7 +128,7 @@ class _ClientEditProfileState extends State<ClientEditProfile> {
           content: Text(Localizations.localeOf(context).languageCode == "en"
               ? result?.messageEn??""
               : result?.messageAr??""));
-      scaffoldKey.currentState?.showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
     isLoading = false;
     setState(() {});

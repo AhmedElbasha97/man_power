@@ -241,7 +241,7 @@ class _CompanySignUpState extends State<CompanySignUp> {
   }
 
   getPhoto(ImageSource src) async {
-    final pickedFile = await (picker.getImage(source: src) as FutureOr<PickedFile>);
+    final pickedFile = await (picker.pickImage(source: src) as FutureOr<PickedFile>);
     img = File(pickedFile.path);
     setState(() {});
   }
@@ -262,7 +262,7 @@ class _CompanySignUpState extends State<CompanySignUp> {
       final snackBar = SnackBar(
           content: Text(
               "${AppLocalizations.of(context)?.translate('signinSuccessMsg')}"));
-      scaffoldKey.currentState?.showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => CompanyProfileScreen(),
       ));
@@ -271,7 +271,7 @@ class _CompanySignUpState extends State<CompanySignUp> {
           content: Text(Localizations.localeOf(context).languageCode == "en"
               ? result.messageEn!
               : result.messageAr!));
-      scaffoldKey.currentState?.showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
     isLoading = false;
     setState(() {});

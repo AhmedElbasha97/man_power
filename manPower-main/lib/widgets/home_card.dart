@@ -4,15 +4,15 @@ import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeCard extends StatefulWidget {
-  String? title;
-  String? image;
-  String? address;
-  String? facebookUrl;
-  String? whatsappUrl;
-  String? instagramUrl;
-  String? twitterUrl;
-  String? phone;
-  String? categoryId;
+  final String? title;
+  final String? image;
+  final String? address;
+  final String? facebookUrl;
+  final String? whatsappUrl;
+  final String? instagramUrl;
+  final String? twitterUrl;
+  final String? phone;
+  final String? categoryId;
 
   HomeCard(
       { this.categoryId,
@@ -58,7 +58,7 @@ class _HomeCardState extends State<HomeCard> {
           content: new Text(content),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            new FlatButton(
+            new TextButton(
               child: new Text( Localizations.localeOf(context).languageCode == "en"
                   ?"Close":"اغلق"),
               onPressed: () {

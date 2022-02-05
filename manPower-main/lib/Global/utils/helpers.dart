@@ -7,6 +7,7 @@ import 'package:manpower/Pages/appData/terms_screen.dart';
 import 'package:manpower/Pages/auth/logIn_screen.dart';
 import 'package:manpower/Pages/welcome_screen.dart';
 import 'package:manpower/services/chatService.dart';
+import 'package:manpower/widgets/button_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -314,31 +315,27 @@ void showpaymentDialog(BuildContext context, Function onpay, String amount) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    RaisedButton(
+                    CustomElevatedButton(
                       onPressed: () {
                         if (isAgree) {
                           onpay();
                         }
                       },
-                      color: mainOrangeColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0)),
-                      child: Text(
-                        AppLocalizations.of(context)?.translate('agree')??"",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      background: mainOrangeColor,
+                      text: AppLocalizations.of(context)?.translate('agree')??"",
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      width: MediaQuery.of(context).size.width * 0.3,
+
                     ),
-                    RaisedButton(
+                   CustomElevatedButton(
                       onPressed: () {
                         Navigator.pop(context, true);
                       },
-                      color: Colors.red,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0)),
-                      child: Text(
-                        AppLocalizations.of(context)?.translate('cancel')??"",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      background: Colors.red,
+                      text: AppLocalizations.of(context)?.translate('cancel')??"",
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      width: MediaQuery.of(context).size.width * 0.3,
+
                     ),
                   ],
                 )

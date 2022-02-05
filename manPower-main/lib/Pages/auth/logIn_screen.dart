@@ -4,7 +4,6 @@ import 'package:manpower/Pages/client/ClientProfile.dart';
 import 'package:manpower/Pages/companies/CompanyProfile.dart';
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/services/AuthService.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../home_screen.dart';
@@ -63,7 +62,7 @@ class _LogInScreenState extends State<LogInScreen> {
             content: Text(Localizations.localeOf(context).languageCode == "en"
                 ? result?.messageEn??""
                 : result?.messageAr??""));
-        scaffoldKey.currentState?.showSnackBar(snackBar);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
       isServerLoading = false;
       setState(() {});

@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:manpower/Global/theme.dart';
@@ -17,8 +15,8 @@ import 'package:manpower/services/OtherServices.dart/appDataService.dart';
 import 'package:manpower/widgets/loader.dart';
 
 class EditCvScreen extends StatefulWidget {
-  String? id;
-  emp.Employees? data;
+  final String? id;
+  final emp.Employees? data;
   EditCvScreen({this.id = "0",  this.data});
   @override
   _EditCvScreenState createState() => _EditCvScreenState();
@@ -842,7 +840,7 @@ class _EditCvScreenState extends State<EditCvScreen> {
   }
 
   getPhoto(int index, ImageSource src) async {
-    final pickedFile = await picker.getImage(source: src);
+    final pickedFile = await picker.pickImage(source: src);
     if (pickedFile != null) {
       if (_images.isNotEmpty) {
         if (_images.asMap()[index] == null) {
@@ -969,7 +967,7 @@ class _EditCvScreenState extends State<EditCvScreen> {
           content: Text(Localizations.localeOf(context).languageCode == "en"
               ? result?.messageEn??""
               : result?.messageAr??""));
-      scaffoldKey.currentState?.showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       isLoading = false;
       setState(() {});
     }

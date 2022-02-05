@@ -9,10 +9,10 @@ import 'package:manpower/widgets/Employees/bigPicture.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EmployeesScreen extends StatefulWidget {
-  String amount;
-  Employees? data;
-  bool isCompany;
-  Function? onagree;
+  final String amount;
+  final Employees? data;
+  final bool isCompany;
+  final Function? onagree;
   EmployeesScreen(
       {this.data, this.isCompany = false, this.onagree, this.amount = ""});
   @override

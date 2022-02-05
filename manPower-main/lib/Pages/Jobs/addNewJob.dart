@@ -38,33 +38,33 @@ class _AddNewJobScreenState extends State<AddNewJobScreen> {
                 MainInputFiled(
                   label: "${AppLocalizations.of(context)?.translate('title')}",
                   inputType: TextInputType.text,
-                  controller: _titleController, validator: (String ) { print(String); },
+                  controller: _titleController,
                 ),
                 SizedBox(height: 10),
                 MainInputFiled(
                   label: "${AppLocalizations.of(context)?.translate('details')}",
                   inputType: TextInputType.text,
-                  controller: _detailsController, validator: (String ) { print(String); },
+                  controller: _detailsController,
                 ),
                 SizedBox(height: 10),
                 MainInputFiled(
                   label:
                       "${AppLocalizations.of(context)?.translate('monthlySalary')}",
                   inputType: TextInputType.text,
-                  controller: _salaryController, validator: (String ) { print(String); },
+                  controller: _salaryController,
                 ),
                 SizedBox(height: 10),
                 MainInputFiled(
                   label:
                       "${AppLocalizations.of(context)?.translate('joblocation')}",
                   inputType: TextInputType.text,
-                  controller: _locationController, validator: (String ) { print(String); },
+                  controller: _locationController,
                 ),
                 SizedBox(height: 10),
                 MainInputFiled(
                   label: "${AppLocalizations.of(context)?.translate('notes')}",
                   inputType: TextInputType.text,
-                  controller: _notesController, validator: (String ) { print(String); },
+                  controller: _notesController,
                 ),
                 SizedBox(height: 10),
                 Row(

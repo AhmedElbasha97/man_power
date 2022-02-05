@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:manpower/Global/theme.dart';
@@ -17,7 +15,7 @@ import 'package:manpower/services/OtherServices.dart/appDataService.dart';
 import 'package:manpower/widgets/loader.dart';
 
 class AddCvScreen extends StatefulWidget {
-  String id;
+  final String id;
   AddCvScreen({this.id = "0"});
   @override
   _AddCvScreenState createState() => _AddCvScreenState();
@@ -1203,7 +1201,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
   }
 
   getPhoto(int index, ImageSource src) async {
-    final pickedFile = await picker.getImage(source: src);
+    final pickedFile = await picker.pickImage(source: src);
     if (pickedFile != null) {
       if (_images.isNotEmpty) {
         if (_images.asMap()[index] == null) {
@@ -1322,7 +1320,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
           content: Text(Localizations.localeOf(context).languageCode == "en"
               ? result.messageEn!
               : result.messageAr!));
-      scaffoldKey.currentState!.showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       isLoading = false;
       setState(() {});
     }

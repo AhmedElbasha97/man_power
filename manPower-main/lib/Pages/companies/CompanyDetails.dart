@@ -1,11 +1,9 @@
-import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/models/Companies/Employees.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:manpower/models/Companies/company.dart';
@@ -20,23 +18,24 @@ import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// ignore: must_be_immutable
 class CompanyDetailsScreen extends StatefulWidget {
   final String? categoryId;
   final String? categoryName;
   final List subCategory;
-  String lang;
-  String? whatsAppNumber;
-  String? phoneNumber;
-  String? faceBookUrl;
-  String? twitterUrl;
-  String? youtubeUrl;
-  String? instagramUrl;
+  final String lang;
+  final String? whatsAppNumber;
+  final String? phoneNumber;
+  final String? faceBookUrl;
+  final String? twitterUrl;
+  final String? youtubeUrl;
+  final String? instagramUrl;
 
-  String? map;
-  String? rating;
-  String? ratingNo;
-  String address;
-  String? details;
+  final String? map;
+   String? rating;
+  final String? ratingNo;
+  final String address;
+  final String? details;
   List<String?> slider = [];
   Clicks clicks;
   CompanyDetailsScreen(
@@ -905,9 +904,9 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
            content: new Text(content),
            actions: <Widget>[
              // usually buttons at the bottom of the dialog
-             new FlatButton(
+             new TextButton(
                child: new Text(Localizations.localeOf(context).languageCode == "en"
-                   ?"Close":"اغلق"+),
+                   ?"Close":"اغلق"),
                onPressed: () {
                  Navigator.of(context).pop();
                },

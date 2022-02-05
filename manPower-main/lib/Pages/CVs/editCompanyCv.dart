@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:manpower/Global/theme.dart';
@@ -15,6 +14,7 @@ import 'package:manpower/services/OtherServices.dart/SendCvService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
 import 'package:manpower/widgets/loader.dart';
 
+// ignore: must_be_immutable
 class AddCvScreen extends StatefulWidget {
   String id;
   AddCvScreen({this.id = "0"});
@@ -1188,7 +1188,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
   }
 
   getPhoto(int index, ImageSource src) async {
-    final pickedFile = await picker.getImage(source: src);
+    final pickedFile = await picker.pickImage(source: src);
     if (_images.isNotEmpty) {
       if (_images.asMap()[index] == null) {
         print('in add');
@@ -1304,7 +1304,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
           content: Text(Localizations.localeOf(context).languageCode == "en"
               ? result?.messageEn??""
               : result?.messageAr??""));
-      scaffoldKey.currentState?.showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       isLoading = false;
       setState(() {});
     }

@@ -57,8 +57,6 @@ class WorkerService {
     Response response;
     List<Employees> list = [];
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String userId = prefs.getString("id") ?? "";
       response = await Dio().get('$baseUrl$workerByCategory/$id/page/$page');
       List data = response.data;
       data.forEach((element) {

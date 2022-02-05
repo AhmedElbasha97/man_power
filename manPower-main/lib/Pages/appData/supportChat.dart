@@ -7,7 +7,6 @@ class SupportChatPage extends StatefulWidget {
 }
 
 class _SupportChatPageState extends State<SupportChatPage> {
-  @override
   late WebViewController _controller;
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,20 +20,7 @@ class _SupportChatPageState extends State<SupportChatPage> {
             //I've left out some of the code needed for a webview to work here, fyi
           },
         ),
-        // body: Tawk(
-        //   directChatLink:
-        //       'https://tawk.to/chat/6078259af7ce1827093ab3f2/1f3al5p6d',
-        //   visitor: TawkVisitor(),
-        //   onLoad: () {
-        //     print('Hello Tawk!');
-        //   },
-        //   onLinkTap: (String url) {
-        //     print(url);
-        //   },
-        //   placeholder: Center(
-        //     child: Text('Loading...'),
-        //   ),
-        // ));
+
     );
   }
 }
