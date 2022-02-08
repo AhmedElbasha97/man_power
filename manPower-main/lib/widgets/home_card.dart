@@ -202,6 +202,11 @@ class _HomeCardState extends State<HomeCard> {
                       placeholder: (context, url) => Center(
                         child: CircularProgressIndicator(),
                       ),
+                      errorWidget: (context, url, error) =>SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.225,
+                        height: MediaQuery.of(context).size.height * 0.145,
+                        child: Image.asset("assets/icon/companyplaceholder.png"),
+                      ),
                     ),
                   ),
                 )

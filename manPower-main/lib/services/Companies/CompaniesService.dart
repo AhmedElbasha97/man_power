@@ -148,6 +148,8 @@ class CompaniesService {
       "name_ar": name,
       "email": email,
       "category_id": categoryId,
+      "location":location,
+      "address":address,
       "image": img == null ? null : await MultipartFile.fromFile(img.path),
       "image1": img1 == null ? null : await MultipartFile.fromFile(img1.path),
       "image2": img2 == null ? null : await MultipartFile.fromFile(img2.path),

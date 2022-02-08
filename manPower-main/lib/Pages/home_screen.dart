@@ -110,8 +110,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getPhotoSlider() async {
     imgList = await AppDataService().getSliderPhotos();
+
     child = map<Widget>(
       imgList,
+
       (index, i) {
         return Container(
           margin: EdgeInsets.all(5.0),
@@ -129,6 +131,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: CircularProgressIndicator(),
                 ),
               ),
+
+              errorWidget: (context, url, error) =>SizedBox(
+                width: MediaQuery.of(context).size.width * 0.2,
+                height: MediaQuery.of(context).size.height * 0.1,
+                 child: Image.asset("assets/icon/companyplaceholder.png"),
+              ),
             ),
           ),
         );
@@ -142,10 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
     type = prefs.getString("type");
     id = prefs.getString("id");
 
-   companies = await CompaniesService().getCompanies(
-        widget.categoryId,
-        page: apiPage,
-        searchKey: searchController.text);
+
     if (more) {
       setState(() {
         loadingMoreData = true;
@@ -162,6 +167,11 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         loadingMoreData = false;
       });
+    }else{
+      companies = await CompaniesService().getCompanies(
+          widget.categoryId,
+          page: apiPage,
+          searchKey: searchController.text);
     }
     isLoading = false;
     setState(() {});
@@ -216,7 +226,6 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollOffset: 1000,
               onEndOfPage: () {
                 if (isCategoryOn) {
-
                   print(apiPage);
                   more=true;
                   getCompnaies();

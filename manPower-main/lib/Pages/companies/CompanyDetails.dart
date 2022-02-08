@@ -97,6 +97,8 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
   @override
   void initState() {
     super.initState();
+    print(widget.map);
+    print("hi");
     tabController =
         TabController(length: (widget.subCategory.length + 1), vsync: this);
     _loadMoreDataController = new ScrollController();
@@ -139,8 +141,9 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                           return child![index]!;
                         },
                               options: CarouselOptions(
-                                autoPlay: true,
+                                autoPlay: child!.length == 1?false:true,
                                 enlargeCenterPage: true,
+                                scrollPhysics: child!.length == 1?NeverScrollableScrollPhysics():BouncingScrollPhysics(),
                                 aspectRatio: 2.0,
                                 onPageChanged: (index, reason) {
                                   setState(() {
@@ -793,10 +796,22 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
   getFilters() async {
     data = await AppDataService().getFilters();
   }
+   detectNullPhotosUrl(List<String?>  imageURLS){
+     List<String?> imgPass =[];
+     for(int i = 0;i<imageURLS.length;i++){
+       if(imageURLS[i]!="https://manpower-kw.com/uploads/0"&&imageURLS[i]!="https://manpower-kw.com/uploads/no-image-available.jpg"){
+         print(imageURLS[i]);
+         imgPass.add(imageURLS[i]);
 
+       }
+
+     }
+     return imgPass;
+   }
   photoSlider() async {
+    List<String?> paths= detectNullPhotosUrl(widget.slider);
     child = map<Widget>(
-      widget.slider,
+      paths,
       (index, i) {
         return Container(
           margin: EdgeInsets.all(5.0),
@@ -819,6 +834,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
         );
       },
     ).toList();
+
   }
 
   Future<void> gMap() async {

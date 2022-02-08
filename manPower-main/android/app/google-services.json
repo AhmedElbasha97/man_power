@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "756550602162",
+    "project_id": "manpower-340609",
+    "storage_bucket": "manpower-340609.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756550602162:android:a6d50caff59f5bae25e8ab",
+        "android_client_info": {
+          "package_name": "com.syncapps.manpower"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "756550602162-ktur1kb8rfcno8iprnm7rgo10acmf317.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvH2w0jWFdUEHHC-g_OdYuGJhv8lc6bn4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "756550602162-ktur1kb8rfcno8iprnm7rgo10acmf317.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

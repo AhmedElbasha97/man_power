@@ -37,6 +37,7 @@ class AuthService {
                 : type == "worker"
                     ? response.data["data"]["workerid"]
                     : response.data["data"]["companyid"]);
+        print(response.data["data"]["companyid"]);
         prefs.setString(
             "name",
             type == "client"
@@ -47,11 +48,13 @@ class AuthService {
           prefs.setString('companyData', jsonEncode(response.data));
         }
       }
+
       return result;
     } on DioError catch (e) {
       print('error in LoginService => ${e.response}');
 
     }
+    return null;
   }
 
   Future<AuthResult?> createAccount(
@@ -84,6 +87,7 @@ class AuthService {
       print('error in LoginService => ${e.response}');
 
     }
+    return null;
   }
 
   Future<AuthResult?> editAccount(
@@ -113,6 +117,7 @@ class AuthService {
       print('error in LoginService => ${e.response}');
 
     }
+    return null;
   }
 
   Future<UserClientMOdel?> getClientAccount({ String? id}) async {
@@ -130,5 +135,6 @@ class AuthService {
     } on DioError catch (e) {
       print('error in LoginService => ${e.response}');
     }
+    return null;
   }
 }

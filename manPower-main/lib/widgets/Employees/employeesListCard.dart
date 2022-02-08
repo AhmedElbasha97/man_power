@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:manpower/Global/theme.dart';
@@ -80,14 +81,23 @@ class _EmployeesCardsState extends State<EmployeesCards> {
                             width: 80,
                             height: 80,
                             decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                border: Border.all(color: mainOrangeColor),
-                                image: DecorationImage(
-                                  image: NetworkImage("${widget.img}"),
-                                  fit: BoxFit.cover,
-                                )),
+                              color: Colors.transparent,
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(10)),
+                              border: Border.all(color: mainOrangeColor),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: CachedNetworkImage(
+                                imageUrl: "${widget.img}",
+                              fit: BoxFit.cover,
+
+                                placeholder: (context, url) =>Image.asset("assets/icon/employerPlaceHolder.png",fit: BoxFit.cover,),
+                                errorWidget: (context, url,e) =>Image.asset("assets/icon/employerPlaceHolder.png",fit: BoxFit.cover,),
+                              ),
+                            ),
                           ),
+
                           SizedBox(
                             width: 10,
                           ),

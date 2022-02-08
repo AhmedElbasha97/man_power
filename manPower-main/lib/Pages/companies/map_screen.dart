@@ -10,7 +10,6 @@ import 'package:manpower/widgets/loader.dart';
 
 
 
-// import 'package';
 
 class MapScreen extends StatefulWidget {
 
@@ -23,8 +22,9 @@ class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
   bool gettingLocation =true;
   String previousMarkerId = "";
+  String countryCode="";
   int _markerIdCounter = 1;
-  String googleApikey = "AIzaSyAOqYzuHM0iK0ol2o7L_h7sNArhUl6XRmU";
+  String googleApikey = "AIzaSyBr4gzBhTiKovqTAgfV0e0Ygh5SY6DWB2k";
   String location = "Search Location";
   late Position position;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -34,6 +34,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     _getCurrentLocation();
+
     super.initState();
   }
    add(double lat,double lang) {
@@ -72,7 +73,10 @@ class _MapScreenState extends State<MapScreen> {
      List<Placemark> i =
         await placemarkFromCoordinates(lat, long);
     Placemark placeMark = i.first;
+    countryCode=placeMark.isoCountryCode!;
     address="${placeMark.street},${placeMark.subAdministrativeArea},${placeMark.subLocality},${placeMark.country}";
+    setState(() {
+    });
     print(address);
 
 
@@ -85,6 +89,8 @@ class _MapScreenState extends State<MapScreen> {
         markers.remove(markerId);
         print('removed');
         add(pos.latitude, pos.longitude);
+
+
       }
     });
   }
@@ -108,6 +114,7 @@ class _MapScreenState extends State<MapScreen> {
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(10.0),
@@ -135,7 +142,7 @@ class _MapScreenState extends State<MapScreen> {
             SizedBox(height: 10,),
             InkWell(
               onTap: () {
-                Navigator.pop(context,address);
+                Navigator.pop(context,position);
               },
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -178,7 +185,7 @@ class _MapScreenState extends State<MapScreen> {
                         mode: Mode.overlay,
                         types: [],
                         strictbounds: false,
-                        components: [Component(Component.country, 'np')],
+                        components: [Component(Component.country, countryCode)],
                         //google_map_webservice package
                         onError: (err){
                           print(err);
@@ -201,6 +208,8 @@ class _MapScreenState extends State<MapScreen> {
                       final lat = geometry.location.lat;
                       final lang = geometry.location.lng;
                       var newlatlang = LatLng(lat, lang);
+                      _addMarker(newlatlang);
+
 
 
                       //move map camera to selected place with animation

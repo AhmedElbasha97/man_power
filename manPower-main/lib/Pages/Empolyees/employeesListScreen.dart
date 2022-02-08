@@ -15,7 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class EmployeesScreen extends StatefulWidget {
   final String? id;
-  EmployeesScreen({this.id});
+
+  EmployeesScreen({this.id, });
 
   @override
   _EmployeesScreenState createState() => _EmployeesScreenState();
@@ -24,6 +25,7 @@ class EmployeesScreen extends StatefulWidget {
 class _EmployeesScreenState extends State<EmployeesScreen> {
   bool isLoading = true;
   bool loadingMoreData = false;
+  bool LoadingFilters= true;
   bool isExpand = false;
    late filter.FiltersData data;
   List<Employees> workers = [];
@@ -34,12 +36,13 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
    filter.Status? selctedStatus;
    filter.Residence? selectedCity;
    filter.Nationality? selctedNationality;
-   late PaymentData payment;
+    PaymentData payment = PaymentData();
 
   getData() async {
-    payment = await AppDataService().getPaymentData();
-    data = await AppDataService().getFilters();
+    print("id");
+    print(widget.id);
     workers = await WorkerService().getWorker(
+
         id: widget.id??"",
         page: page,
         occupationId: selectedJob?.occupationId ?? "",
@@ -48,6 +51,13 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
         nationalityId: selctedNationality?.nationalityId ?? "",
         statusId: selctedStatus?.statusId ?? "");
     isLoading = false;
+    setState(() {});
+    getDataOfFilters();
+  }
+  getDataOfFilters() async {
+    payment = await AppDataService().getPaymentData();
+    data = await AppDataService().getFilters();
+    LoadingFilters=false;
     setState(() {});
   }
 
@@ -123,7 +133,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          ExpansionTile(
+                          LoadingFilters?Container() :ExpansionTile(
                               collapsedBackgroundColor: mainOrangeColor,
                               initiallyExpanded: isExpand,
                               onExpansionChanged: (value) {
@@ -465,7 +475,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                         ):Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: EmployeesCards(
-                              amount: "${payment.viewConatcts}",
+                              amount: "${payment.viewConatcts??""}",
                               data: workers[index],
                               name: Localizations.localeOf(context)
                                           .languageCode ==

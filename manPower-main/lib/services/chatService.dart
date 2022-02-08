@@ -23,6 +23,7 @@ class ChatService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   Future<Chats?> getChatbyId(String? chatid) async {
@@ -36,6 +37,7 @@ class ChatService {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   Future<bool> sendMessage(

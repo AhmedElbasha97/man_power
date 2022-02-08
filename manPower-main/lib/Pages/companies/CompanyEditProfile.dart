@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/widgets/MainInputFiled.dart';
@@ -44,7 +46,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
   List<Categories> categories = [];
   List<File> _images = [];
    Categories? selectedCat;
-   // PickResult? selectedPlace;
+  late Position selectedPlace;
 
   @override
   void initState() {
@@ -59,12 +61,14 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
       context,
       MaterialPageRoute(builder: (context) => MapScreen()),
     );
-
-    // After the Selection Screen returns a result, hide any previous snackbars
-    // and show the new result.
+    selectedPlace =result;
+    List<Placemark> i =
+    await placemarkFromCoordinates(result.latitude, result.longitude);
+    Placemark placeMark = i.first;
+    var address="${placeMark.street},${placeMark.subAdministrativeArea},${placeMark.subLocality},${placeMark.country}";
     ScaffoldMessenger.of(context)
       ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('$result')));
+      ..showSnackBar(SnackBar(content: Text('$address')));
   }
   fillData() {
     _nameController =
@@ -415,7 +419,15 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
 
   signUp() async {
     isLoading = true;
+    var address="";
     setState(() {});
+    if(selectedPlace==null){
+    List<Placemark> i =
+    await placemarkFromCoordinates(selectedPlace.latitude, selectedPlace.longitude);
+    Placemark placeMark = i.first;
+    address="${placeMark.street},${placeMark.subAdministrativeArea},${placeMark.subLocality},${placeMark.country}";
+    }
+    print(selectedPlace);
     AuthResult result = await CompaniesService().companyeditProfile(
         username:
             _usernameController.text == "" ? "" : _usernameController.text,
@@ -428,14 +440,14 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
         img1: _images.isEmpty ? null : _images.first,
         img2: _images.length < 2 ? null : _images[1],
         img3: _images.length < 3 ? null : _images[2],
-        address: addressController.text == "" ? null : addressController.text,
+        address: selectedPlace==null ? null : addressController.text,
         details:
             detailsArController.text == "" ? null : detailsArController.text,
         detailsEn:
             detailsEnController.text == "" ? null : detailsEnController.text,
-        // location: selectedPlace == null
-        //     ? "0,0"
-        //     : "${selectedPlace!.geometry!.location.lat},${selectedPlace!.geometry!.location.lng}",
+        location: selectedPlace==null
+            ? "0,0"
+            : "${selectedPlace.latitude},${selectedPlace.longitude}",
         categoryId: selectedCat == null ? null : selectedCat!.categoryId);
     if (result.status == "success") {
       final snackBar = SnackBar(
@@ -453,6 +465,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
     isLoading = false;
+    print("${selectedPlace.latitude},${selectedPlace.longitude}");
     setState(() {});
   }
 }
