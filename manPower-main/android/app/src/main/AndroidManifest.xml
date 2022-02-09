@@ -13,7 +13,7 @@
 
     <application
         android:allowBackup="false"
-        android:name="io.flutter.app.FlutterApplication"
+
         android:label="manpower"
         android:icon="@mipmap/ic_launcher">
         <meta-data

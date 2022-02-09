@@ -34,7 +34,8 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
+    ndkVersion '21.1.6528147'
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -54,7 +55,14 @@ android {
         multiDexEnabled true
 
     }
-
+    signingConfigs {
+        release {
+            storePassword=123456
+            keyPassword=123456
+            keyAlias=key
+            storeFile file("release.keystore")
+        }
+    }
 
     buildTypes {
         release {
