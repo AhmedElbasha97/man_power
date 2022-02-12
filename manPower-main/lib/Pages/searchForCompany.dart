@@ -23,6 +23,7 @@ class _CompanySearchScreenState extends State<CompanySearchScreen> {
   bool isLoading = true;
   List<Categories> categories = [];
   List<HomeSlider> imgList = [];
+   final CarouselController _controller = CarouselController();
    String? type;
    String? id;
 
@@ -91,8 +92,12 @@ class _CompanySearchScreenState extends State<CompanySearchScreen> {
             : ListView(
                 children: [
                   Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-                  CarouselSlider(
-                    items: child as List<Widget>?,
+                  CarouselSlider.builder(
+                    carouselController: _controller,
+                    itemCount: child!.length,
+                    itemBuilder: (BuildContext context, int index, int realIndex) {
+                      return child![index]!;
+                    },
                     options: CarouselOptions(
                       autoPlay: true,
                       enlargeCenterPage: true,

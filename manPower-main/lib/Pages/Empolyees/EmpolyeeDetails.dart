@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,6 +14,7 @@ class EmployeesScreen extends StatefulWidget {
   final Employees? data;
   final bool isCompany;
   final Function? onagree;
+
   EmployeesScreen(
       {this.data, this.isCompany = false, this.onagree, this.amount = ""});
   @override
@@ -21,20 +23,23 @@ class EmployeesScreen extends StatefulWidget {
 
 class _EmployeesScreenState extends State<EmployeesScreen> {
   List<String?> imgList = [];
-
+  final CarouselController _controller = CarouselController();
   silderdata() {
     if (widget.data != null) {
       if (widget.data!.image1 != null) {
+        print(widget.data!.image1);
         imgList.add(
           widget.data!.image1,
         );
       }
       if (widget.data!.image2 != null) {
+        print(widget.data!.image2);
         imgList.add(
           widget.data!.image2,
         );
       }
       if (widget.data!.image3 != null) {
+        print(widget.data!.image3);
         imgList.add(
           widget.data!.image3,
         );
@@ -61,30 +66,49 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
       body: ListView(
         children: [
           Container(
-              child: CarouselSlider(
+              child: CarouselSlider.builder(
+                carouselController: _controller,
+                itemCount: imgList.length,
+                itemBuilder: (BuildContext context, int index, int realIndex) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => BigPicture(
+                            link: imgList[index],
+                          ),
+                        ));
+                      },
+                      child: Center(
+                          child: CachedNetworkImage(
+                            imageUrl: imgList[index]!,
+                            fit: BoxFit.cover,
+                            width: 1000.0,
+                            placeholder: (context, url) => SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: Image.asset("assets/icon/employerPlaceHolder.png"),
+                            ),
+                          ),),
+                    ),
+                  );
+                },
             options: CarouselOptions(
               autoPlay: true,
               viewportFraction: 1.0,
               height: MediaQuery.of(context).size.height * 0.3,
             ),
-            items: imgList
-                .map((item) => Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => BigPicture(
-                              link: item,
-                            ),
-                          ));
-                        },
-                        child: Center(
-                            child: Image.network(item!,
-                                fit: BoxFit.cover, width: 1000)),
-                      ),
-                    ))
-                .toList(),
+
           )),
           SizedBox(
             height: 15,

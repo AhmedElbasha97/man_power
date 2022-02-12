@@ -829,6 +829,11 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                   child: CircularProgressIndicator(),
                 ),
               ),
+              errorWidget: (context, url, error) =>SizedBox(
+              width: MediaQuery.of(context).size.width * 0.2,
+          height: MediaQuery.of(context).size.height * 0.1,
+          child: Image.asset("assets/icon/companyplaceholder.png"),
+        ),
             ),
           ),
         );

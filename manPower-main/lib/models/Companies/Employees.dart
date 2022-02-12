@@ -25,6 +25,7 @@ class Employees {
     this.additional,
     this.company,
     this.isPaid,
+    this.favourite,
   });
 
   String? workerId;
@@ -52,6 +53,7 @@ class Employees {
   Additional? additional;
   dynamic company;
   bool? isPaid;
+  bool? favourite;
 
   factory Employees.fromJson(Map<String, dynamic> json) => Employees(
         workerId: json["worker_id"],
@@ -93,6 +95,7 @@ class Employees {
             : Additional.fromJson(json["additional"]),
         company: json["company"],
         isPaid: json["is_paid"],
+       favourite: json["favourite"] == null ? null : json["favourite"],
       );
 }
 

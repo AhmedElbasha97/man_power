@@ -30,6 +30,7 @@ class WorkerService {
   Future<List<Employees>> getWorker(
       { String? id,
        int? page,
+        String? userId,
       String nationalityId = "",
       String occupationId = "",
       String religionId = "",
@@ -42,7 +43,7 @@ class WorkerService {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userId = prefs.getString("id") ?? "";
       response = await Dio().get('$baseUrl$worker$id/page/$page' +
-          "?occupation_id=$occupationId&nationality_id=$nationalityId&religion_id=$religionId&status_id=$statusId&gender_id=$genderId&residence_id=$residenceId&client_id=$userId");
+          "?company_id=$userId&occupation_id=$occupationId&nationality_id=$nationalityId&religion_id=$religionId&status_id=$statusId&gender_id=$genderId&residence_id=$residenceId&client_id=$userId");
       List data = response.data;
       data.forEach((element) {
         list.add(Employees.fromJson(element));

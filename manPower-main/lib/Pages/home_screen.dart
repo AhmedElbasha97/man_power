@@ -301,69 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ))
                         : Container(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.05 ,
-                        width: MediaQuery.of(context).size.width*0.9 ,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.white,
-                          border: Border.all(width: 0.5, color: mainOrangeColor),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 5, //soften the shadow
-                              spreadRadius: 0, //extend the shadow
-                              offset: Offset(
-                                0.0, // Move to right 10  horizontally
-                                3.0, // Move to bottom 5 Vertically
-                              ),
-                            )
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: DropdownButton<String>(
-                              isExpanded: true,
-                              isDense: true,
-                              hint: Text(
-                                  Localizations.localeOf(context).languageCode == "en" ?"filtering through rating":"ترتيب عن طريق التقيم",
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                  )),
-                              underline: SizedBox(),
-                              items: filtersValue
-                                  .map
-                              <DropdownMenuItem<String>>((value){
-                                var index = filtersValue.indexOf(value);
-                                return new DropdownMenuItem<String>(
 
-                                  value: value,
-                                  child: new Text(
-                                      Localizations.localeOf(
-                                          context)
-                                          .languageCode ==
-                                          "en"
-                                          ? filtersTitlesEn[index]
-                                          : filtersTitlesAR[index],
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                      )),
-                                );})
-                                  .toList(),
-                              onChanged: (value) {
-                                isLoading = true;
-                                setState(() {});
-                                selectedFilter = value.toString();
-                                getData();
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                     Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                     CarouselSlider.builder(
                       carouselController: _controller,

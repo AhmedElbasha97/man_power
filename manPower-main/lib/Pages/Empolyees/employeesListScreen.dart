@@ -39,10 +39,15 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
     PaymentData payment = PaymentData();
 
   getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+   var type = prefs.getString("type");
+   var id = prefs.getString("id");
+   print("user type $type");
+   print("user id $id");
     print("id");
     print(widget.id);
     workers = await WorkerService().getWorker(
-
+        userId:type=="company"?id:"",
         id: widget.id??"",
         page: page,
         occupationId: selectedJob?.occupationId ?? "",
@@ -475,6 +480,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                         ):Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: EmployeesCards(
+                            isFavorite: workers[index].favourite??false,
                               amount: "${payment.viewConatcts??""}",
                               data: workers[index],
                               name: Localizations.localeOf(context)

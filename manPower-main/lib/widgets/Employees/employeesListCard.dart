@@ -24,6 +24,7 @@ class EmployeesCards extends StatefulWidget {
   final Function? onDelete;
   final Function? onagree;
   final String amount;
+  final bool isFavorite;
   EmployeesCards(
       { this.img,
        this.name,
@@ -38,12 +39,18 @@ class EmployeesCards extends StatefulWidget {
        this.onagree,
       this.isCompanyProfile = false,
       this.isCV = true,
-       this.amount=""});
+       this.amount="",  this.isFavorite = false});
   @override
   _EmployeesCardsState createState() => _EmployeesCardsState();
 }
 
 class _EmployeesCardsState extends State<EmployeesCards> {
+  bool result = false;
+
+  void initState() {
+    result = widget.isFavorite;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -146,17 +153,30 @@ class _EmployeesCardsState extends State<EmployeesCards> {
                                   ? Container()
                                   : InkWell(
                                       onTap: () async {
-                                        bool result = await ClientService()
-                                            .addToFavorite(
-                                                widget.data?.workerId??"");
-                                        String msg = result
-                                            ? "${AppLocalizations.of(context)?.translate('addedDone')}"
-                                            : "${AppLocalizations.of(context)?.translate('alreadyAdded')}";
-                                        showTheDialog(context, "", msg, );
+                                        if(result){
+                                          print("hi delete");
+                                          final i= await ClientService().deleteFromFavorite( widget.data?.workerId??"");
+                                         setState(()  {
+
+                                           result =i;
+                                         });
+                                        }else{
+                                          print("hi add");
+                                          final i = await ClientService().addToFavorite(widget.data?.workerId??"");
+                                          setState(() {
+
+                                            result = !i;
+                                            print("$i i");
+                                            print("$result result");
+                                          });
+                                        }
                                       },
-                                      child: FaIcon(
-                                        FontAwesomeIcons.heart,
+                                      child: result?FaIcon(
+                                        FontAwesomeIcons.solidHeart,
                                         color: Colors.red,
+                                      ):FaIcon(
+                                        FontAwesomeIcons.heart,
+                                        color: Colors.grey,
                                       ),
                                     ),
                             ],
