@@ -436,6 +436,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           companies[index].whatsapp,
                                           companies[index].social?.youtube,
                                           companies[index].companyId,
+
                                           Localizations.localeOf(context)
                                                       .languageCode ==
                                                   "en"

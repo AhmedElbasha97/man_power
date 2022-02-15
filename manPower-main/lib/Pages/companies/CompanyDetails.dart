@@ -18,6 +18,8 @@ import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../ChatingScreen/chating_screen.dart';
+
 // ignore: must_be_immutable
 class CompanyDetailsScreen extends StatefulWidget {
   final String? categoryId;
@@ -30,8 +32,8 @@ class CompanyDetailsScreen extends StatefulWidget {
   final String? twitterUrl;
   final String? youtubeUrl;
   final String? instagramUrl;
-
   final String? map;
+
    String? rating;
   final String? ratingNo;
   final String address;
@@ -55,7 +57,7 @@ class CompanyDetailsScreen extends StatefulWidget {
       this.ratingNo,
       this.map,
       this.address,
-      this.details);
+      this.details,);
 
   @override
   _CompanyDetailsScreenState createState() => _CompanyDetailsScreenState();
@@ -996,7 +998,12 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>  ChattingScreen(reciverId: widget.categoryId!,)),
+                          );
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
