@@ -20,6 +20,7 @@ class ChattingScreen extends StatefulWidget {
 }
 
 class _ChattingScreenState extends State<ChattingScreen> {
+  final TextEditingController myController = TextEditingController();
   Timer? timer;
   late final String userId;
 bool isLoading = true;
@@ -88,7 +89,7 @@ bool isLoading = true;
            TextFieldChatBar(sendMassage: (value){
              sendMessage(value.toString());
 
-            },)
+            }, myController: myController,)
 
 
           ],

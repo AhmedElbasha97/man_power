@@ -4,10 +4,10 @@ import 'package:manpower/Global/theme.dart';
 
 
 class TextFieldChatBar extends StatelessWidget {
-   TextFieldChatBar({Key? key, required this.sendMassage,  }) : super(key: key);
+   TextFieldChatBar({Key? key, required this.sendMassage, required this.myController,  }) : super(key: key);
   final Function sendMassage;
 
-  final myController = TextEditingController();
+  final TextEditingController myController ;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,8 @@ class TextFieldChatBar extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(child: TextField(
-                           controller: myController,
+
+                            controller: myController,
                             cursorColor: mainOrangeColor,
                             autocorrect: false,
                             maxLines: null,
