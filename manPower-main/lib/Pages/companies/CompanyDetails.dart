@@ -999,10 +999,8 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) =>  ChattingScreen(reciverId: widget.categoryId!,)),
-                          );
+
+                          detectUserType();
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1232,6 +1230,19 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
       },
     );
   }
+   detectUserType() async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+     if (prefs.containsKey("id")){
+       Navigator.push(
+         context,
+         MaterialPageRoute(builder: (context) =>  ChattingScreen(reciverId: widget.categoryId!,)),
+       );
+     }else{
+       Localizations.localeOf(context).languageCode == "en"
+           ?_showDialog("please sign in or sign up first", "you can't with this office"):_showDialog("يجب عليك ان تسجل دخولك أولا أو تقوم بإنشاء حساب", "لا يمكنك التحدث مع هذا المكتب");
+     }
+   }
 
   Future<void> detailsDialog() async {
     return showDialog<void>(
