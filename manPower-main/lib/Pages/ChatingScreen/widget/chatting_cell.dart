@@ -40,7 +40,7 @@ class ChattingCell extends StatelessWidget {
                         color: Colors.black,
                         ):TextStyle(
                       fontSize: 14,
-                      color: mainOrangeColor,
+                      color: black,
                     )
                 ),
               ),
