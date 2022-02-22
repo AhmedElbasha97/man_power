@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/Global/widgets/MainDrawer.dart';
@@ -12,6 +13,8 @@ import 'package:manpower/services/workersService.dart';
 import 'package:manpower/widgets/Companies/companyCategoryCard.dart';
 import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../services/notification/notification_services.dart';
 
 class SearchForEmployee extends StatefulWidget {
   @override
@@ -76,6 +79,9 @@ class _SearchForEmployeeState extends State<SearchForEmployee> {
   @override
   void initState() {
     super.initState();
+
+    NotificationServices.checkNotificationAppInForeground(context);
+
     photoSlider();
   }
 

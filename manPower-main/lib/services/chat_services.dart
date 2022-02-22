@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:manpower/Global/Settings.dart';
+import 'package:manpower/models/chat/chat-user_list.dart';
 import 'package:manpower/models/chat/chat_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class ChatServiceList{
   String chat = "chat";
   String send = "chat/send";
+  String userList = "contacts";
+  String markRead = "make/read";
   Future<MassageList> listAllChats(String reciverId) async {
-
       Response response;
       MassageList result;
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -25,6 +27,30 @@ class ChatServiceList{
 
 
   }
+  Future<UserList> listAllUserChat() async {
+    Response response;
+    UserList result;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = prefs.getString("id") ?? "";
+    var body =FormData.fromMap({
+      "company_id": "$userId",
+    });
+    response = await Dio().post('$baseUrl$userList', data: body);
+    var data = response.data;
+    result = UserList.fromJson(data) ;
+    return result;
+  }
+  Future<Response> markAsRead(
+      String reciverID,String chatID
+      ) async {
+    var body =FormData.fromMap({
+      "company_id": "$reciverID",
+      "chat_id":"$chatID"
+    });
+    Response response;
+    response =  await Dio().post('$baseUrl$markRead', data: body);
+    return response;
+  }
   Future<MassageList> sendMassage(String reciverId,String massage) async {
       Response response;
       MassageList result;
@@ -40,9 +66,6 @@ class ChatServiceList{
       var data = response.data;
       result = MassageList.fromJson(data);
       return result;
-
-
-
   }
 
 

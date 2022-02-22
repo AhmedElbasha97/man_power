@@ -191,6 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
         page: apiPage,
         searchKey: searchController.text);
     isSearching=false;
+
   }
 
   @override
@@ -399,7 +400,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     isCategoryOn
                         ?isSearching? Loader(width: MediaQuery.of(context).size.width ,
-                      height: MediaQuery.of(context).size.height * 0.5,):ListView.builder(
+                      height: MediaQuery.of(context).size.height * 0.5,):companies.length==0?
+                    Container(
+                      width: MediaQuery.of(context).size.width ,
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 100,
+                            backgroundImage: AssetImage("assets/icon/companyplaceholder.png",),
+                          ),
+                          SizedBox(height: 20,),
+                          Text(Localizations.localeOf(context).languageCode == "en"
+                              ?isSearchActive?"no office match this name available":"no office available right now":isSearchActive?"لا يوجد مكتب يطابق هذا الاسم متاح الان":"لا يوجد مكتب متاح الان",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ):ListView.builder(
                             primary: false,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
@@ -423,7 +446,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ],
                                   ),
                                 ),
-                              ):InkWell(
+                              ):
+                              InkWell(
                                 onTap: () {
                                   Navigator.of(context)
                                       .push(MaterialPageRoute(
@@ -492,7 +516,28 @@ class _HomeScreenState extends State<HomeScreen> {
                         : isLoadingProducts
                             ? Loader(width: MediaQuery.of(context).size.width ,
                       height: MediaQuery.of(context).size.height * 0.5,)
-                            : ListView.builder(
+                            :cvs.length==0?Container(
+                        width: MediaQuery.of(context).size.width ,
+                          height: MediaQuery.of(context).size.height * 0.5,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 100,
+                            backgroundImage: AssetImage("assets/icon/employerPlaceHolder.png",),
+                          ),
+                          SizedBox(height: 20,),
+                          Text(Localizations.localeOf(context).languageCode == "en"
+                              ?isSearchActive?"no employer match this name available":"no employers available right now":isSearchActive?"لا يوجد موظف  يطابق هذا الاسم متاح الان":"لا يوجد موظفين متحين لان",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ) : ListView.builder(
                                 primary: false,
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),

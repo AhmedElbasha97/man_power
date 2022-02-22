@@ -56,10 +56,10 @@ class _CompanyProfileScreenState extends State<CompanyProfileScreen> {
                         CircleAvatar(
                           radius: 50,
                           backgroundImage:
-                          info?.data?.image1!="https://manpower-kw.com/uploads/0"?NetworkImage("${info?.data?.image1}"):AssetImage('assets/icon/companyplaceholder.png') as ImageProvider,
+                          info?.data?.image1!="https://manpower-kw.com/uploads/0"&&info?.data?.image1!=null?NetworkImage("${info?.data?.image1}"):AssetImage('assets/icon/companyplaceholder.png') as ImageProvider,
                         ),
                         Text(
-                          "${Localizations.localeOf(context).languageCode == "en" ? info!.data?.nameAr : info!.data?.nameEn}",
+                          "${Localizations.localeOf(context).languageCode == "en" ? info!.data?.nameAr??"ليس متوفر اسم الشركة بالعربي" : info!.data?.nameEn??"no english name available"}",
                           style: TextStyle(fontSize: 14),
                         )
                       ],
@@ -238,7 +238,7 @@ class _CompanyProfileScreenState extends State<CompanyProfileScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "${info!.data!.expiration ?? AppLocalizations.of(context)?.translate('noSub')}",
+                              "${info?.data?.expiration ?? AppLocalizations.of(context)?.translate('noSub')}",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 
 import '../../../Global/theme.dart';
 
@@ -40,7 +40,7 @@ class ChattingCell extends StatelessWidget {
                         color: Colors.black,
                         ):TextStyle(
                       fontSize: 14,
-                      color: black,
+                      color: Colors.black,
                     )
                 ),
               ),
@@ -53,7 +53,7 @@ class ChattingCell extends StatelessWidget {
               sender? MainAxisAlignment.end : MainAxisAlignment.start,
               children: [
                 Text(
-                  messageTime,
+                  DateFormat.jm().format(DateFormat("hh:mm:ss").parse(messageTime)),
                   style:TextStyle(
                     fontSize: 14,
                     color: Colors.black26,

@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+
+import 'package:manpower/models/other/notification_model.dart';
+
+class NotificationCell extends StatelessWidget {
+  const NotificationCell({Key? key,  required this.notification, required this.press}) : super(key: key);
+  final Datum notification;
+  final VoidCallback press;
+
+  @override
+  Widget build(BuildContext context) {
+    return  InkWell(
+
+      child: Container(
+        width: double.infinity,
+        child:  Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 24,
+                backgroundImage: AssetImage("assets/icon/employerPlaceHolder.png"),
+              ),
+              Expanded(
+                child: Padding(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        notification.message??"",
+                        style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500 ),
+                        maxLines: null,
+                      ),
+                      SizedBox(height: 8),
+                      Opacity(
+                        opacity: 0.64,
+                        child: Text(
+                          notification.created??"",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+        ),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(color: Colors.grey.shade500,width: 1)
+            )
+        ),
+
+      ),
+    );
+  }
+}

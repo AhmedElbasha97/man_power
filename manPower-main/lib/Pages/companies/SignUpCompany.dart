@@ -249,6 +249,7 @@ class _CompanySignUpState extends State<CompanySignUp> {
   signUp() async {
     isLoading = true;
     setState(() {});
+    print(selectedCat!.categoryId);
     AuthResult result = await CompaniesService().companySignUp(
         username: _usernameController.text,
         password: _passwordController.text,
@@ -259,6 +260,7 @@ class _CompanySignUpState extends State<CompanySignUp> {
         img: img,
         categoryId: selectedCat == null ? "" : selectedCat!.categoryId??"");
     if (result.status == "success") {
+
       final snackBar = SnackBar(
           content: Text(
               "${AppLocalizations.of(context)?.translate('signinSuccessMsg')}"));
@@ -267,7 +269,9 @@ class _CompanySignUpState extends State<CompanySignUp> {
         builder: (context) => CompanyProfileScreen(),
       ));
     } else {
+      print(result.status);
       final snackBar = SnackBar(
+
           content: Text(Localizations.localeOf(context).languageCode == "en"
               ? result.messageEn!
               : result.messageAr!));

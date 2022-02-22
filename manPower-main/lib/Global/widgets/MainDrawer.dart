@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:manpower/Pages/Notification/notification_list.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ import 'package:manpower/Pages/searchForEmplyee.dart';
 import 'package:manpower/Pages/welcome_screen.dart';
 import 'package:manpower/selectSection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../Pages/ChatingScreen/chats_list_screen.dart';
 import '../utils/helpers.dart';
 
 // ignore: must_be_immutable
@@ -349,6 +351,70 @@ class _MainDrawerState extends State<MainDrawer> {
                       }),
                 )
               : Container(),
+          widget.id != null?Container(
+            color: Colors.white,
+            child: ListTile(
+                tileColor: Colors.white,
+                title: Text(
+                  "${  Localizations.localeOf(context).languageCode == "en"
+                      ?"chat list":"قيمة الدردشات"}",
+                  style: TextStyle(
+                      color: Color(0xFF0671bf),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
+                  textScaleFactor: 1.0,
+                ),
+                leading: Container(
+                  width: 35,
+                  height: 35,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Colors.orange,
+                  ),
+                  child: Icon(
+                    Icons.chat,
+                    color: Colors.white,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ChatsListScreen(),
+                  ));
+                }),
+          ):SizedBox(),
+          widget.id != null?Container(
+            color: Colors.white,
+            child: ListTile(
+                tileColor: Colors.white,
+                title: Text(
+                  "${  Localizations.localeOf(context).languageCode == "en"
+                      ?"Notification list":"قيمة الاشعرات"}",
+                  style: TextStyle(
+                      color: Color(0xFF0671bf),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
+                  textScaleFactor: 1.0,
+                ),
+                leading: Container(
+                  width: 35,
+                  height: 35,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Colors.orange,
+                  ),
+                  child: Icon(
+                    Icons.notifications,
+                    color: Colors.white,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => NotificationsListScreen(),
+                  ));
+                }),
+          ):SizedBox(),
           SizedBox(
             height: 10,
           ),

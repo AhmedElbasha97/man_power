@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Pages/ChatingScreen/widget/messages_list.dart';
 import 'package:manpower/Pages/ChatingScreen/widget/text_field_chat_bar.dart';
-
 import 'package:manpower/models/chat/chat_list.dart';
 import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,17 +29,21 @@ bool isLoading = true;
    sendMessage(String massage) async {
      MassageList? massageList = await services.sendMassage(widget.reciverId, massage);
      listOfMessages= massageList.date![0].messages!;
+
      setState(() {});
    }
    getId() async {
      SharedPreferences prefs = await SharedPreferences.getInstance();
      userId =  prefs.getString("id") ?? "";
    }
+
+
   checkForNewMasssageLists() async {
 
        MassageList massageList = await services.listAllChats(
            widget.reciverId);
        listOfMessages= massageList.date![0].messages!;
+
        isLoading =false;
        setState(() {
        });
@@ -65,7 +68,8 @@ bool isLoading = true;
       appBar: AppBar(
         backgroundColor: Colors.grey[300],
         title: Text(
-          "دردشة فورية",
+          Localizations.localeOf(context).languageCode == "en"
+              ?"chat":"دردشة فورية",
           style: TextStyle(color: mainOrangeColor),
         ),
         centerTitle: true,

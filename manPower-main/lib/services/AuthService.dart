@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:manpower/Global/Settings.dart';
 import 'package:manpower/models/client/userClient.dart';
 import 'package:manpower/models/other/authresult.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
@@ -12,7 +13,14 @@ class AuthService {
   String signUp = "signup/client";
   String editProfile = "set/client/info";
   String clientProfile = "client/profile";
+  String notificationToken ="update/token";
+  sendUserTokenOfNotification(String userId,String notificationToken) async {
+    Response response;
+    response = await Dio()
+        .post("$baseUrl$notificationToken", data: {"company_id ": "$userId", "token": "$notificationToken"});
+    print(response);
 
+  }
   Future<AuthResult?> login(
       { String? username,  String? password,  String? type}) async {
     AuthResult result;
@@ -47,6 +55,11 @@ class AuthService {
           prefs.setString("image", response.data["data"]["picpath"]);
           prefs.setString('companyData', jsonEncode(response.data));
         }
+        final notificationToken =  NotificationServices().getTokenOfUser();
+        sendUserTokenOfNotification(type == "worker"
+        ? response.data["data"]["workerid"]
+            :response.data["data"]["companyid"],notificationToken??"");
+
       }
 
       return result;
@@ -82,6 +95,8 @@ class AuthService {
         prefs.setString("id", "${response.data['data']['memberid']}");
         prefs.setString("name", "${response.data['data']['username']}");
       }
+      final notificationToken =  NotificationServices().getTokenOfUser();
+      sendUserTokenOfNotification(response.data['data']['memberid'],notificationToken??"");
       return result;
     } on DioError catch (e) {
       print('error in LoginService => ${e.response}');

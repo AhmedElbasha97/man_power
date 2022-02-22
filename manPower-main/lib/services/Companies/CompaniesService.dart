@@ -98,7 +98,6 @@ class CompaniesService {
        String? categoryId,
        File? img}) async {
     AuthResult result;
-
     var data = FormData.fromMap({
       "username": username,
       "password": password,
@@ -112,8 +111,10 @@ class CompaniesService {
     Response response;
     response = await Dio().post('$baseUrl$signup', data: data);
     result = AuthResult.fromJson(response.data);
-    if (response.data["error"] == null) {
+    if ((response.data["error"] == null) &&(response.data["status"]=="success")) {
       SharedPreferences pref = await SharedPreferences.getInstance();
+      print("hi from checker");
+      print('${response.data["data"]["company_id"]}');
       pref.setString('id', '${response.data["data"]["company_id"]}');
       pref.setString('type', "company");
     }
