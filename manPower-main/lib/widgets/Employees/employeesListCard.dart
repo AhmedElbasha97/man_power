@@ -9,6 +9,8 @@ import 'package:manpower/models/Companies/Employees.dart';
 import 'package:manpower/services/ClientService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Pages/ChatingScreen/chating_screen.dart';
+
 class EmployeesCards extends StatefulWidget {
   final String? name;
   final String? cvId;
@@ -23,6 +25,7 @@ class EmployeesCards extends StatefulWidget {
   final bool isCompanyProfile;
   final Function? onDelete;
   final Function? onagree;
+  final String companyID;
   final String amount;
   final bool isFavorite;
   EmployeesCards(
@@ -39,7 +42,7 @@ class EmployeesCards extends StatefulWidget {
        this.onagree,
       this.isCompanyProfile = false,
       this.isCV = true,
-       this.amount="",  this.isFavorite = false});
+       this.amount="",  this.isFavorite = false, this.companyID = "0"});
   @override
   _EmployeesCardsState createState() => _EmployeesCardsState();
 }
@@ -298,21 +301,26 @@ class _EmployeesCardsState extends State<EmployeesCards> {
                             ),
                             InkWell(
                               onTap: () async {
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                String userId = prefs.getString("id") ?? "";
-                                if (widget.isCompanyProfile ||
-                                    widget.data!.isPaid!) {
-                                  showMsgDialog(
-                                      context, widget.data!.workerId, userId);
-                                } else {
-                                  showpaymentDialog(context, () {
-                                    Navigator.of(context).pop();
-                                    if (widget.onagree != null) {
-                                      widget.onagree!();
-                                    }
-                                  }, widget.amount);
-                                }
+    SharedPreferences prefs =
+    await SharedPreferences.getInstance();
+    String userId = prefs.getString("id") ?? "";
+        if(widget.isCompanyProfile||widget.isCompany){
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) =>  ChattingScreen(reciverId: widget.companyID,)),
+    );
+    }else{ if(widget.data!.isPaid!) {
+    showMsgDialog(
+    context, widget.data!.workerId, userId);
+    } else {
+    showpaymentDialog(context, () {
+    Navigator.of(context).pop();
+    if (widget.onagree != null) {
+    widget.onagree!();
+    }
+    }, widget.amount);
+    }
+    }
                               },
                               child: Container(
                                 width: 100,

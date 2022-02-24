@@ -143,7 +143,9 @@ class SendCvService {
           preferences.setString("type", "worker");
         }
       }
+
       return result;
+
     } catch (e) {
       return result;
     }

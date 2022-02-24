@@ -28,7 +28,7 @@ class ChatUserCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundImage: NetworkImage(chat.picpath??""),
+                  backgroundImage:chat.picpath != null ? chat.picpath != "https://manpower-kw.com/uploads/no-image-available.jpg" ? chat.picpath != "https://manpower-kw.com/uploads/0" ?NetworkImage(chat.picpath??""):AssetImage("assets/icon/employerPlaceHolder.png")as ImageProvider:AssetImage("assets/icon/employerPlaceHolder.png"):AssetImage("assets/icon/employerPlaceHolder.png"),
                 ),
                 if (chat.isRead=="1"?true:false)
                   Positioned(

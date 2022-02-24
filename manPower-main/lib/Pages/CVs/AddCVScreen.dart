@@ -1480,6 +1480,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
           widget.id);
 
       if (result?.status == "success") {
+        print("result from add cv $result");
         widget.id == "0"
             ? pushPageReplacement(context, EmployeeProfile())
             : popPage(context);

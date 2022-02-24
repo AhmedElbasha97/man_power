@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:manpower/Global/Settings.dart';
 import 'package:manpower/models/client/userClient.dart';
 import 'package:manpower/models/other/authresult.dart';
@@ -13,12 +14,15 @@ class AuthService {
   String signUp = "signup/client";
   String editProfile = "set/client/info";
   String clientProfile = "client/profile";
-  String notificationToken ="update/token";
-  sendUserTokenOfNotification(String userId,String notificationToken) async {
+  String notificationTokenUrl ="update/token";
+  Future<Response> sendUserTokenOfNotification(String userId,String notificationToken) async {
     Response response;
+    var body =FormData.fromMap({
+      "company_id":"$userId","token":"$notificationToken"
+    });
     response = await Dio()
-        .post("$baseUrl$notificationToken", data: {"company_id ": "$userId", "token": "$notificationToken"});
-    print(response);
+        .post("$baseUrl$notificationTokenUrl", data:body);
+   return response;
 
   }
   Future<AuthResult?> login(
@@ -55,10 +59,17 @@ class AuthService {
           prefs.setString("image", response.data["data"]["picpath"]);
           prefs.setString('companyData', jsonEncode(response.data));
         }
-        final notificationToken =  NotificationServices().getTokenOfUser();
-        sendUserTokenOfNotification(type == "worker"
-        ? response.data["data"]["workerid"]
-            :response.data["data"]["companyid"],notificationToken??"");
+        FirebaseMessaging.instance.getToken().then((token) async {
+          var res= await sendUserTokenOfNotification(type == "worker"
+              ? response.data["data"]["workerid"]
+              :response.data["data"]["companyid"],token!);
+          final notificationToken = token;
+          print("result from calling notification$res");
+          print("notification token$notificationToken");
+        });
+
+
+
 
       }
 
@@ -95,8 +106,13 @@ class AuthService {
         prefs.setString("id", "${response.data['data']['memberid']}");
         prefs.setString("name", "${response.data['data']['username']}");
       }
-      final notificationToken =  NotificationServices().getTokenOfUser();
-      sendUserTokenOfNotification(response.data['data']['memberid'],notificationToken??"");
+      FirebaseMessaging.instance.getToken().then((token) async {
+        var res= await sendUserTokenOfNotification("${response.data['data']['memberid']}",token!);
+        final notificationToken = token;
+        print("result from calling notification$res");
+        print("notification token$notificationToken");
+      });
+
       return result;
     } on DioError catch (e) {
       print('error in LoginService => ${e.response}');

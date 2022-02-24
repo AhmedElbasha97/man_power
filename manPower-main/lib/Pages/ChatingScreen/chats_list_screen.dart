@@ -71,7 +71,7 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
           itemCount: userChatList?.length,
           itemBuilder: (context, int index) {
            return ChatUserCard(press: () async {
-
+             print(userChatList?[index].picpath);
              if(userChatList?[index].isRead=="1"){
                print("hi from checker");
               var response = await ChatServiceList().markAsRead(userChatList?[index].companyId??"", userChatList?[index].chatId??"");

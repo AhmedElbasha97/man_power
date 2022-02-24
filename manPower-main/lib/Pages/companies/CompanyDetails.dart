@@ -755,6 +755,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                                     return Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: EmployeesCards(
+                                        companyID: widget.categoryId??"",
                                         isCompanyProfile: true,
                                         isCV: false,
                                         data: employees[index],

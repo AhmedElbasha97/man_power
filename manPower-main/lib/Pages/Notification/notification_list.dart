@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:manpower/Pages/Notification/widget/notifiction_cell.dart';
-
 import 'package:manpower/models/other/notification_model.dart';
 import 'package:manpower/services/notification/notification_services.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Global/theme.dart';
 import '../../widgets/loader.dart';
 class NotificationsListScreen extends StatefulWidget {
@@ -15,8 +14,11 @@ class NotificationsListScreen extends StatefulWidget {
 
 class _NotificationsListScreenState extends State<NotificationsListScreen> {
   bool isLoading = true;
+  var type ;
   late List<Datum>? userNotificationList;
   getAllListOfNotification()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    type = prefs.getString("type");
     final userList= await NotificationServices().listAllNotification();
     userNotificationList = userList.data;
     isLoading=false;
@@ -28,6 +30,7 @@ class _NotificationsListScreenState extends State<NotificationsListScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     getAllListOfNotification();
   }
   @override
@@ -73,7 +76,7 @@ class _NotificationsListScreenState extends State<NotificationsListScreen> {
           physics: const BouncingScrollPhysics(),
           itemCount: userNotificationList?.length,
           itemBuilder: (context, int index) {
-            return NotificationCell(press: () { print("hiiiiiii"); },notification: userNotificationList![index],);
+            return NotificationCell(press: () { NotificationServices.notificationSelectingAction(userNotificationList![index].type??"", context); },notification: userNotificationList![index],type: type,);
           }),
     );
   }

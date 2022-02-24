@@ -26,7 +26,7 @@ class _MainInputFiledState extends State<MainInputFiled> {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       child: TextFormField(
-        validator: (value){widget.validator!(value);},
+        validator: (value){widget.validator??(value);},
         keyboardType: widget.inputType,
         controller: widget.controller,
         focusNode: widget.focusNode,

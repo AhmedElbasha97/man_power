@@ -16,11 +16,9 @@ class NotificationServices{
   static final FlutterLocalNotificationsPlugin _notificationsPlugin = FlutterLocalNotificationsPlugin();
  final notification = "notifications";
  static var context;
-  String? getTokenOfUser(){
-    FirebaseMessaging.instance.getToken().then((token){
-      return token;
-    });
-  }
+
+
+
   static checkNotificationAppInBackground(context) async{
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message != null) {
