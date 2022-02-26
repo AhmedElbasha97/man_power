@@ -157,20 +157,19 @@ class _EmployeesCardsState extends State<EmployeesCards> {
                                   : InkWell(
                                       onTap: () async {
                                         if(result){
-                                          print("hi delete");
+
                                           final i= await ClientService().deleteFromFavorite( widget.data?.workerId??"");
                                          setState(()  {
 
                                            result =i;
                                          });
                                         }else{
-                                          print("hi add");
+
                                           final i = await ClientService().addToFavorite(widget.data?.workerId??"");
                                           setState(() {
 
                                             result = !i;
-                                            print("$i i");
-                                            print("$result result");
+
                                           });
                                         }
                                       },
