@@ -12,7 +12,7 @@ class ChatUserCard extends StatelessWidget {
     required this.press,
   }) : super(key: key);
 
-  final Datum chat;
+  final Datum? chat;
   final VoidCallback press;
 
   @override
@@ -28,9 +28,9 @@ class ChatUserCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundImage:chat.picpath != null ? chat.picpath != "https://manpower-kw.com/uploads/no-image-available.jpg" ? chat.picpath != "https://manpower-kw.com/uploads/0" ?NetworkImage(chat.picpath??""):AssetImage("assets/icon/employerPlaceHolder.png")as ImageProvider:AssetImage("assets/icon/employerPlaceHolder.png"):AssetImage("assets/icon/employerPlaceHolder.png"),
+                  backgroundImage:chat?.picpath != null ? chat?.picpath != "https://manpower-kw.com/uploads/no-image-available.jpg" ? chat?.picpath != "https://manpower-kw.com/uploads/0" ?NetworkImage(chat?.picpath??""):AssetImage("assets/icon/employerPlaceHolder.png")as ImageProvider:AssetImage("assets/icon/employerPlaceHolder.png"):AssetImage("assets/icon/employerPlaceHolder.png"),
                 ),
-                if (chat.isRead=="1"?true:false)
+                if (chat?.isRead=="0"?true:false)
                   Positioned(
                     right: 0,
                     bottom: 0,
@@ -57,7 +57,7 @@ class ChatUserCard extends StatelessWidget {
                   children: [
                     Text(
                       Localizations.localeOf(context).languageCode == "en"
-                          ?chat.name??"":chat.namear??"",
+                          ?chat?.name??"":chat?.namear??"",
                       style:
                       TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
@@ -65,11 +65,11 @@ class ChatUserCard extends StatelessWidget {
                     Opacity(
                       opacity: 0.64,
                       child: Text(
-                        chat.lastMessage??"",
+                        chat?.lastMessage??"",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontWeight: chat.isRead=="1"?FontWeight.bold:FontWeight.normal,
+                          fontWeight: chat?.isRead=="1"?FontWeight.bold:FontWeight.normal,
                         ),
                       ),
                     ),
@@ -80,7 +80,7 @@ class ChatUserCard extends StatelessWidget {
                         Opacity(
                           opacity: 0.64,
                           child: Text(
-                            chat.lastMessageDate??"",
+                            chat?.lastMessageDate??"",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -88,10 +88,10 @@ class ChatUserCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        chat.lastMessageTime=="0"?Opacity(
+                        chat?.lastMessageTime=="0"?Opacity(
                           opacity: 0.64,
                           child: Text(
-                              DateFormat.jm().format(DateFormat("hh:mm:ss").parse(chat.lastMessageTime==""?"00:00:00":chat.lastMessageTime??"")),
+                              DateFormat.jm().format(DateFormat("hh:mm:ss").parse(chat?.lastMessageTime==""?"00:00:00":chat?.lastMessageTime??"")),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(

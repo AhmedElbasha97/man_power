@@ -2,6 +2,7 @@ import 'package:manpower/I10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:manpower/models/AppInfo/termsData.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/widgets/loader.dart';
 
 class TermsScreen extends StatefulWidget {
@@ -11,17 +12,19 @@ class TermsScreen extends StatefulWidget {
 
 class _TermsScreenState extends State<TermsScreen> {
    TermsData? term;
-  bool isloading = true;
+  bool isLoading = true;
 
   getTerms() async {
     term = await AppDataService().getTerms();
-    isloading = false;
+    isLoading = false;
     setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
+    NotificationServices.checkNotificationAppInForeground(context);
+
     getTerms();
   }
 
@@ -37,7 +40,7 @@ class _TermsScreenState extends State<TermsScreen> {
         ),
         centerTitle: true,
       ),
-      body: isloading
+      body: isLoading
           ? Loader()
           : Scaffold(
               body: SingleChildScrollView(

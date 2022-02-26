@@ -3,6 +3,7 @@ import 'package:manpower/Pages/ChatingScreen/chating_screen.dart';
 import 'package:manpower/Pages/ChatingScreen/widget/user_chat_cell.dart';
 import 'package:manpower/models/chat/chat-user_list.dart';
 import 'package:manpower/services/chat_services.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/widgets/loader.dart';
 import '../../Global/theme.dart';
 class ChatsListScreen extends StatefulWidget {
@@ -27,6 +28,8 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    NotificationServices.checkNotificationAppInForeground(context);
+
     getAllListOfChat();
   }
   @override
@@ -49,7 +52,7 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body:isLoading?Loader(): userChatList?.length==0?
+      body:isLoading?Loader(): userChatList?.length==0||userChatList==null?
       Container(
           height: MediaQuery.of(context).size.height ,
           width: MediaQuery.of(context).size.width,
@@ -71,16 +74,16 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
           itemCount: userChatList?.length,
           itemBuilder: (context, int index) {
            return ChatUserCard(press: () async {
-             print(userChatList?[index].picpath);
-             if(userChatList?[index].isRead=="1"){
-               print("hi from checker");
-              var response = await ChatServiceList().markAsRead(userChatList?[index].companyId??"", userChatList?[index].chatId??"");
-              print(response);
+
+             if(userChatList?[index].isRead=="0"){
+
+              var response = await ChatServiceList().markAsRead(userChatList?[index].chatId??"");
+
               if(response.data['status'] == "success"){
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) =>  ChattingScreen(reciverId: userChatList?[index].companyId??"",)),
                 ).then((value){
-                  print("data has been called again");
+
                 getAllListOfChat();
                   setState(() {
 
@@ -91,7 +94,7 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
              Navigator.push(
              context,
              MaterialPageRoute(builder: (context) =>  ChattingScreen(reciverId: userChatList?[index].companyId??"",)),
-           );} },chat: userChatList![index],);
+           );} },chat: userChatList?[index] );
     }),
     );
   }

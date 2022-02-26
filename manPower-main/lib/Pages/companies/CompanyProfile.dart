@@ -27,7 +27,7 @@ class _CompanyProfileScreenState extends State<CompanyProfileScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     type = prefs.getString("type");
     id = prefs.getString("id");
-    print(id);
+
     info = await CompaniesService().getCompanyInfo(id);
     isLoading = false;
     setState(() {});

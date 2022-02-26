@@ -4,6 +4,7 @@ import 'package:manpower/I10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:manpower/models/AppInfo/about.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/widgets/loader.dart';
 
 class AboutAppScreen extends StatefulWidget {
@@ -24,6 +25,8 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
   @override
   void initState() {
     super.initState();
+    NotificationServices.checkNotificationAppInForeground(context);
+
     getData();
   }
 

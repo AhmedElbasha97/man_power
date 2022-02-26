@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manpower/models/client/walletItem.dart';
 import 'package:manpower/services/ClientService.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/widgets/loader.dart';
 
 class TransactionScreen extends StatefulWidget {
@@ -9,18 +10,20 @@ class TransactionScreen extends StatefulWidget {
 }
 
 class _TransactionScreenState extends State<TransactionScreen> {
-  List<WalletItem> transctions = [];
-  bool isloading = true;
+  List<WalletItem> transactions = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    NotificationServices.checkNotificationAppInForeground(context);
+
     getData();
   }
 
   getData() async {
-    transctions = await ClientService().getTransations();
-    isloading = false;
+    transactions = await ClientService().getTransations();
+    isLoading = false;
     setState(() {});
   }
 
@@ -28,17 +31,17 @@ class _TransactionScreenState extends State<TransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: isloading
+      body: isLoading
           ? Loader()
           : ListView.builder(
-              itemCount: transctions.length,
+              itemCount: transactions.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    title: Text("${transctions[index].created}"),
-                    subtitle: Text("${transctions[index].amount}"),
-                    trailing: Text("${transctions[index].id}"),
+                    title: Text("${transactions[index].created}"),
+                    subtitle: Text("${transactions[index].amount}"),
+                    trailing: Text("${transactions[index].id}"),
                   ),
                 );
               },

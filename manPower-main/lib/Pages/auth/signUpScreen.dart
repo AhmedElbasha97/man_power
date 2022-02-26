@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:manpower/Global/theme.dart';
+import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/Global/widgets/MainInputFiled.dart';
 import 'package:manpower/I10n/app_localizations.dart';
-import 'package:manpower/Pages/client/ClientProfile.dart';
 import 'package:manpower/models/other/authresult.dart';
+import 'package:manpower/pages/searchForEmplyee.dart';
 import 'package:manpower/services/AuthService.dart';
 import 'package:manpower/widgets/loader.dart';
 
@@ -104,9 +105,7 @@ class _ClientSignUpState extends State<ClientSignUp> {
           content: Text(
               "${AppLocalizations.of(context)?.translate('signinSuccessMsg')}"));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => ClientProfileScreen(),
-      ));
+      pushPageReplacement(context, SearchForEmployee());
     } else {
       final snackBar = SnackBar(
           content: Text(Localizations.localeOf(context).languageCode == "en"

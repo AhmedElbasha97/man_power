@@ -41,10 +41,12 @@ class ChatServiceList{
     return result;
   }
   Future<Response> markAsRead(
-      String reciverID,String chatID
+      String chatID
       ) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = prefs.getString("id") ?? "";
     var body =FormData.fromMap({
-      "company_id": "$reciverID",
+      "company_id": "$userId",
       "chat_id":"$chatID"
     });
     Response response;

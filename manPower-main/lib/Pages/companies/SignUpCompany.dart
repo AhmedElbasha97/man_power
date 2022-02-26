@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:manpower/Global/theme.dart';
+import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/Global/widgets/MainInputFiled.dart';
 import 'package:manpower/I10n/app_localizations.dart';
-import 'package:manpower/Pages/companies/CompanyProfile.dart';
 import 'package:manpower/models/Companies/Categories.dart';
 import 'package:manpower/models/other/authresult.dart';
+import 'package:manpower/pages/searchForEmplyee.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:manpower/widgets/loader.dart';
 
@@ -25,7 +25,7 @@ class _CompanySignUpState extends State<CompanySignUp> {
   ImageSource imgSrc = ImageSource.gallery;
   final picker = ImagePicker();
 
-   File? img;
+  XFile? img;
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _nameEnController = new TextEditingController();
   TextEditingController _emailController = new TextEditingController();
@@ -76,7 +76,7 @@ class _CompanySignUpState extends State<CompanySignUp> {
                                 Icons.camera_alt,
                                 size: 30,
                               )
-                            : Image.file(img!),
+                            : Image.file(File(img!.path)),
                       ),
                     ),
                   ),
@@ -241,15 +241,17 @@ class _CompanySignUpState extends State<CompanySignUp> {
   }
 
   getPhoto(ImageSource src) async {
-    final pickedFile = await (picker.pickImage(source: src) as FutureOr<PickedFile>);
-    img = File(pickedFile.path);
+    final pickedFile = await (picker.pickImage(source: src) );
+
+    img = pickedFile;
+
     setState(() {});
   }
 
   signUp() async {
     isLoading = true;
     setState(() {});
-    print(selectedCat!.categoryId);
+
     AuthResult result = await CompaniesService().companySignUp(
         username: _usernameController.text,
         password: _passwordController.text,
@@ -257,7 +259,7 @@ class _CompanySignUpState extends State<CompanySignUp> {
         name: _nameController.text,
         nameEn: _nameEnController.text,
         email: _emailController.text,
-        img: img,
+        img:img ==null?null:File(img!.path),
         categoryId: selectedCat == null ? "" : selectedCat!.categoryId??"");
     if (result.status == "success") {
 
@@ -265,11 +267,9 @@ class _CompanySignUpState extends State<CompanySignUp> {
           content: Text(
               "${AppLocalizations.of(context)?.translate('signinSuccessMsg')}"));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => CompanyProfileScreen(),
-      ));
+      pushPageReplacement(context, SearchForEmployee());
     } else {
-      print(result.status);
+
       final snackBar = SnackBar(
 
           content: Text(Localizations.localeOf(context).languageCode == "en"

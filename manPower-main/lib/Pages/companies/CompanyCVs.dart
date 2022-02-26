@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:manpower/models/Companies/Employees.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/widgets/Employees/employeesListCard.dart';
 import 'package:manpower/widgets/loader.dart';
 
@@ -48,6 +49,8 @@ class _CompanyCvScreenState extends State<CompanyCvScreen> {
   @override
   void initState() {
     super.initState();
+    NotificationServices.checkNotificationAppInForeground(context);
+
     getCv();
   }
 

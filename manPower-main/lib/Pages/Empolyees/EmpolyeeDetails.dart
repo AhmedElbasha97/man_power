@@ -27,19 +27,19 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
   silderdata() {
     if (widget.data != null) {
       if (widget.data!.image1 != null) {
-        print(widget.data!.image1);
+
         imgList.add(
           widget.data!.image1,
         );
       }
       if (widget.data!.image2 != null) {
-        print(widget.data!.image2);
+
         imgList.add(
           widget.data!.image2,
         );
       }
       if (widget.data!.image3 != null) {
-        print(widget.data!.image3);
+
         imgList.add(
           widget.data!.image3,
         );

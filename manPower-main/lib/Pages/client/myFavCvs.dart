@@ -5,6 +5,7 @@ import 'package:manpower/models/AppInfo/paymentData.dart';
 import 'package:manpower/models/client/favoriteEmployee.dart';
 import 'package:manpower/services/ClientService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/services/workersService.dart';
 import 'package:manpower/widgets/Employees/employeesListCard.dart';
 import 'package:manpower/widgets/loader.dart';
@@ -51,6 +52,8 @@ class _MyFavCvsScreenState extends State<MyFavCvsScreen> {
   @override
   void initState() {
     super.initState();
+    NotificationServices.checkNotificationAppInForeground(context);
+
     getMyCv();
   }
 

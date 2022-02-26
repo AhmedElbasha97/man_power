@@ -9,8 +9,8 @@ class TransactionScreen extends StatefulWidget {
 }
 
 class _TransactionScreenState extends State<TransactionScreen> {
-  List<CompanyWalletItem> transctions = [];
-  bool isloading = true;
+  List<CompanyWalletItem> transactions = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -19,8 +19,8 @@ class _TransactionScreenState extends State<TransactionScreen> {
   }
 
   getData() async {
-    transctions = await CompaniesService().getTransations();
-    isloading = false;
+    transactions = await CompaniesService().getTransations();
+    isLoading = false;
     setState(() {});
   }
 
@@ -28,17 +28,17 @@ class _TransactionScreenState extends State<TransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: isloading
+      body: isLoading
           ? Loader()
           : ListView.builder(
-              itemCount: transctions.length,
+              itemCount: transactions.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    title: Text("${transctions[index].created}"),
-                    subtitle: Text("${transctions[index].amount}"),
-                    trailing: Text("${transctions[index].id}"),
+                    title: Text("${transactions[index].created}"),
+                    subtitle: Text("${transactions[index].amount}"),
+                    trailing: Text("${transactions[index].id}"),
                   ),
                 );
               },

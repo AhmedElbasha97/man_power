@@ -25,17 +25,17 @@ class EmployeesScreen extends StatefulWidget {
 class _EmployeesScreenState extends State<EmployeesScreen> {
   bool isLoading = true;
   bool loadingMoreData = false;
-  bool LoadingFilters= true;
+  bool loadingFilters= true;
   bool isExpand = false;
    late filter.FiltersData data;
   List<Employees> workers = [];
   int page = 1;
   bool isEnd = false;
    filter.Occupation? selectedJob;
-   filter.Religion? selectedReligon;
-   filter.Status? selctedStatus;
+   filter.Religion? selectedReligion;
+   filter.Status? selectedStatus;
    filter.Residence? selectedCity;
-   filter.Nationality? selctedNationality;
+   filter.Nationality? selectedNationality;
     PaymentData payment = PaymentData();
 
   getData() async {
@@ -52,9 +52,9 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
         page: page,
         occupationId: selectedJob?.occupationId ?? "",
         residenceId: selectedCity?.residenceId ?? "",
-        religionId: selectedReligon?.religionId ?? "",
-        nationalityId: selctedNationality?.nationalityId ?? "",
-        statusId: selctedStatus?.statusId ?? "");
+        religionId: selectedReligion?.religionId ?? "",
+        nationalityId: selectedNationality?.nationalityId ?? "",
+        statusId: selectedStatus?.statusId ?? "");
     isLoading = false;
     setState(() {});
     getDataOfFilters();
@@ -62,7 +62,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
   getDataOfFilters() async {
     payment = await AppDataService().getPaymentData();
     data = await AppDataService().getFilters();
-    LoadingFilters=false;
+    loadingFilters=false;
     setState(() {});
   }
 
@@ -76,9 +76,9 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
           page: page,
           occupationId: selectedJob?.occupationId ?? "",
           residenceId: selectedCity?.residenceId ?? "",
-          religionId: selectedReligon?.religionId ?? "",
-          nationalityId: selctedNationality?.nationalityId ?? "",
-          statusId: selctedStatus?.statusId ?? "");
+          religionId: selectedReligion?.religionId ?? "",
+          nationalityId: selectedNationality?.nationalityId ?? "",
+          statusId: selectedStatus?.statusId ?? "");
       workers.addAll(list);
       isEnd = list.isEmpty;
       loadingMoreData=false;
@@ -138,7 +138,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          LoadingFilters?Container() :ExpansionTile(
+                          loadingFilters?Container() :ExpansionTile(
                               collapsedBackgroundColor: mainOrangeColor,
                               initiallyExpanded: isExpand,
                               onExpansionChanged: (value) {
@@ -245,10 +245,10 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                                     isDense: true,
                                     isExpanded: true,
                                     hint: Text(
-                                        selectedReligon == null
+                                        selectedReligion == null
                                             ? AppLocalizations.of(context)
                                                 ?.translate('religion')??""
-                                            : selectedReligon!.religionName??"",
+                                            : selectedReligion!.religionName??"",
                                         style: TextStyle(
                                           fontSize: 13,
                                         )),
@@ -273,7 +273,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                                     onChanged: (value) {
                                       isLoading = true;
                                       setState(() {});
-                                      selectedReligon = value;
+                                      selectedReligion = value;
                                       getData();
                                     },
                                   ),
@@ -299,10 +299,10 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                                       isDense: true,
                                       isExpanded: true,
                                       hint: Text(
-                                          selctedStatus == null
+                                          selectedStatus == null
                                               ? AppLocalizations.of(context)
                                                   ?.translate('socialStatus')??""
-                                              : selctedStatus!.statusName??"",
+                                              : selectedStatus!.statusName??"",
                                           style: TextStyle(
                                             fontSize: 13,
                                           )),
@@ -327,7 +327,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                                       onChanged: (value) {
                                         isLoading = true;
                                         setState(() {});
-                                        selctedStatus = value;
+                                        selectedStatus = value;
                                         getData();
                                       },
                                     )),
@@ -408,10 +408,10 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                                     isDense: true,
                                     isExpanded: true,
                                     hint: Text(
-                                        selctedNationality == null
+                                        selectedNationality == null
                                             ? AppLocalizations.of(context)
                                                 ?.translate('nationality')??""
-                                            : selctedNationality!
+                                            : selectedNationality!
                                                 .nationalityName??"",
                                         style: TextStyle(
                                           fontSize: 13,
@@ -437,7 +437,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                                             ))
                                         .toList(),
                                     onChanged: (value) {
-                                      selctedNationality = value;
+                                      selectedNationality = value;
                                       isLoading = true;
                                       setState(() {});
                                       getData();

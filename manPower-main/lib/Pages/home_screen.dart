@@ -14,6 +14,7 @@ import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/services/workersService.dart';
 import 'package:manpower/widgets/Employees/employeesListCard.dart';
 import 'package:manpower/widgets/home_card.dart';
@@ -97,6 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    NotificationServices.checkNotificationAppInForeground(context);
+
     getData();
   }
 
@@ -185,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isSearching=true;
     });
-    print(searchController.text);
+
     companies = await CompaniesService().getCompanies(
         widget.categoryId,
         page: apiPage,
@@ -227,12 +230,9 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollOffset: 1000,
               onEndOfPage: () {
                 if (isCategoryOn) {
-                  print(apiPage);
                   more=true;
                   getCompnaies();
                 } else {
-
-                  print(apiPage);
                   getCv();
                 }
               },

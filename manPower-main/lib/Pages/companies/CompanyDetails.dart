@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:manpower/models/Companies/company.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/widgets/Employees/employeesListCard.dart';
 import 'package:manpower/I10n/app_localizations.dart';
 import 'package:manpower/models/AppInfo/Filters.dart' as filter;
@@ -80,7 +81,8 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
   bool searchFound = false;
 
    TabController? tabController;
-   GoogleMapController? _controller;
+   GoogleMapController? _mapController;
+   CarouselController _carosuelController = CarouselController();
 
   bool isExpand = false;
    filter.Occupation? selectedJob;
@@ -99,8 +101,9 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
   @override
   void initState() {
     super.initState();
-    print(widget.map);
-    print("hi");
+
+    NotificationServices.checkNotificationAppInForeground(context);
+
     tabController =
         TabController(length: (widget.subCategory.length + 1), vsync: this);
     _loadMoreDataController = new ScrollController();
@@ -137,7 +140,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                       Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                       child != null && child!.isNotEmpty
                           ? CarouselSlider.builder(
-                        carouselController: _controller,
+                        carouselController: _carosuelController,
                         itemCount: child!.length,
                         itemBuilder: (BuildContext context, int index, int realIndex) {
                           return child![index]!;
@@ -710,7 +713,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                                                 onMapCreated:
                                                     (GoogleMapController
                                                         controller) {
-                                                  _controller = controller;
+                                                  _mapController = controller;
                                                   setState(() {});
                                                 },
                                                 markers: {
@@ -803,7 +806,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
      List<String?> imgPass =[];
      for(int i = 0;i<imageURLS.length;i++){
        if(imageURLS[i]!="https://manpower-kw.com/uploads/0"&&imageURLS[i]!="https://manpower-kw.com/uploads/no-image-available.jpg"){
-         print(imageURLS[i]);
+
          imgPass.add(imageURLS[i]);
 
        }
@@ -870,7 +873,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                               zoom: 19.151926040649414,
                             ),
                             onMapCreated: (GoogleMapController controller) {
-                              _controller = controller;
+                              _mapController = controller;
                               setState(() {});
                             },
                             markers: {

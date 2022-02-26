@@ -8,6 +8,7 @@ import 'package:manpower/Pages/client/ClientProfile.dart';
 import 'package:manpower/models/client/userClient.dart';
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/services/AuthService.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/widgets/loader.dart';
 
 class ClientEditProfile extends StatefulWidget {
@@ -40,6 +41,8 @@ class _ClientEditProfileState extends State<ClientEditProfile> {
   @override
   void initState() {
     super.initState();
+    NotificationServices.checkNotificationAppInForeground(context);
+
     fillData();
   }
 

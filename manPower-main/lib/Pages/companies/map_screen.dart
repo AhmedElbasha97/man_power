@@ -22,11 +22,13 @@ class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
   bool gettingLocation =true;
   String previousMarkerId = "";
+
+  bool locUpdated = false;
   String countryCode="";
   int _markerIdCounter = 1;
   String googleApikey = "AIzaSyBr4gzBhTiKovqTAgfV0e0Ygh5SY6DWB2k";
   String location = "Search Location";
-  late Position position;
+  late LatLng position;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
     String address="";
 
@@ -51,7 +53,11 @@ class _MapScreenState extends State<MapScreen> {
       infoWindow: InfoWindow(title: Localizations.localeOf(context).languageCode == "en" ?"your Current Location":"مكانك الحالى", snippet: Localizations.localeOf(context).languageCode == "en" ?"this is your location will be set in app":"هذا هو المكان الذى تريد تعديله في التطبيق"),
 
     );
+    position = LatLng(
+        lat,lang
+    );
     getAddressOfLocation(lat,lang);
+
     setState(() {
       markers[markerId] = marker;
     });
@@ -74,7 +80,9 @@ class _MapScreenState extends State<MapScreen> {
         await placemarkFromCoordinates(lat, long);
     Placemark placeMark = i.first;
     countryCode=placeMark.isoCountryCode!;
+
     address="${placeMark.street},${placeMark.subAdministrativeArea},${placeMark.subLocality},${placeMark.country}";
+
     setState(() {
     });
     print(address);
@@ -106,7 +114,9 @@ class _MapScreenState extends State<MapScreen> {
   void _getCurrentLocation() async {
     Position res = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     setState(() {
-      position = res;
+      position = LatLng(
+          res.latitude,res.longitude
+      );
 
     });
     _createMarker();
@@ -142,6 +152,8 @@ class _MapScreenState extends State<MapScreen> {
             SizedBox(height: 10,),
             InkWell(
               onTap: () {
+                print(position.latitude);
+                print(position.longitude);
                 Navigator.pop(context,position);
               },
               child: Container(

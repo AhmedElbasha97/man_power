@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manpower/models/Companies/Employees.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/services/workersService.dart';
 import 'package:manpower/widgets/Employees/employeesListCard.dart';
 import 'package:manpower/widgets/loader.dart';
@@ -21,6 +22,8 @@ class _MyCvsScreenState extends State<MyCvsScreen> {
   @override
   void initState() {
     super.initState();
+    NotificationServices.checkNotificationAppInForeground(context);
+
     getMyCv();
   }
 

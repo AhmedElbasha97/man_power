@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:manpower/Global/Settings.dart';
 import 'package:manpower/models/client/userClient.dart';
 import 'package:manpower/models/other/authresult.dart';
-import 'package:manpower/services/notification/notification_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
@@ -60,12 +58,11 @@ class AuthService {
           prefs.setString('companyData', jsonEncode(response.data));
         }
         FirebaseMessaging.instance.getToken().then((token) async {
-          var res= await sendUserTokenOfNotification(type == "worker"
+          var _= await sendUserTokenOfNotification(type == "worker"
               ? response.data["data"]["workerid"]
               :response.data["data"]["companyid"],token!);
-          final notificationToken = token;
-          print("result from calling notification$res");
-          print("notification token$notificationToken");
+
+
         });
 
 
@@ -107,10 +104,8 @@ class AuthService {
         prefs.setString("name", "${response.data['data']['username']}");
       }
       FirebaseMessaging.instance.getToken().then((token) async {
-        var res= await sendUserTokenOfNotification("${response.data['data']['memberid']}",token!);
-        final notificationToken = token;
-        print("result from calling notification$res");
-        print("notification token$notificationToken");
+        var _= await sendUserTokenOfNotification("${response.data['data']['memberid']}",token!);
+
       });
 
       return result;

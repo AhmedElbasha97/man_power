@@ -7,6 +7,7 @@ import 'package:manpower/models/AppInfo/homeSilder.dart';
 import 'package:manpower/models/Companies/Categories.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/widgets/Companies/companyCategoryCard.dart';
 import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,6 +73,8 @@ class _CompanySearchScreenState extends State<CompanySearchScreen> {
   @override
   void initState() {
     super.initState();
+    NotificationServices.checkNotificationAppInForeground(context);
+
     photoSlider();
   }
 

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/widgets/MainInputFiled.dart';
@@ -42,11 +42,11 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
   TextEditingController addressController = TextEditingController();
   TextEditingController detailsArController = TextEditingController();
   TextEditingController detailsEnController = TextEditingController();
-
+   String address ="";
   List<Categories> categories = [];
   List<File> _images = [];
    Categories? selectedCat;
-  late Position selectedPlace;
+  late LatLng selectedPlace;
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
     List<Placemark> i =
     await placemarkFromCoordinates(result.latitude, result.longitude);
     Placemark placeMark = i.first;
-    var address="${placeMark.street},${placeMark.subAdministrativeArea},${placeMark.subLocality},${placeMark.country}";
+     address="${placeMark.street},${placeMark.subAdministrativeArea},${placeMark.subLocality},${placeMark.country}";
     ScaffoldMessenger.of(context)
       ..removeCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text('$address')));
@@ -98,15 +98,15 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
     if (pickedFile != null) {
       if (_images.isNotEmpty) {
         if (_images.asMap()[index] == null) {
-          print('in add');
+
           _images.add(File(pickedFile.path));
         } else {
-          print('in insert');
+
           _images[index] = File(pickedFile.path);
         }
       } else
         _images.add(File(pickedFile.path));
-      print(index);
+
       setState(() {});
     }
   }
@@ -419,7 +419,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
 
   signUp() async {
     isLoading = true;
-    var address="";
+
     setState(() {});
     if(selectedPlace==null){
     List<Placemark> i =
@@ -427,6 +427,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
     Placemark placeMark = i.first;
     address="${placeMark.street},${placeMark.subAdministrativeArea},${placeMark.subLocality},${placeMark.country}";
     }
+    print(address);
     print(selectedPlace);
     AuthResult result = await CompaniesService().companyeditProfile(
         username:
@@ -440,7 +441,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
         img1: _images.isEmpty ? null : _images.first,
         img2: _images.length < 2 ? null : _images[1],
         img3: _images.length < 3 ? null : _images[2],
-        address: selectedPlace==null ? null : addressController.text,
+        address: selectedPlace==null ? null : address,
         details:
             detailsArController.text == "" ? null : detailsArController.text,
         detailsEn:

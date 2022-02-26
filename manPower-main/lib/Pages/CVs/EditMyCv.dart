@@ -12,6 +12,7 @@ import 'package:manpower/models/AppInfo/Filters.dart';
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/services/OtherServices.dart/SendCvService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/widgets/loader.dart';
 
 class AddCvScreen extends StatefulWidget {
@@ -91,6 +92,8 @@ class _AddCvScreenState extends State<AddCvScreen> {
   void initState() {
     super.initState();
     getData();
+    NotificationServices.checkNotificationAppInForeground(context);
+
   }
 
   unfocus() {

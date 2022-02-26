@@ -11,6 +11,7 @@ import 'package:manpower/Pages/client/ClientWallet.dart';
 import 'package:manpower/Pages/client/myFavCvs.dart';
 import 'package:manpower/models/client/userClient.dart';
 import 'package:manpower/services/AuthService.dart';
+import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,6 +37,8 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
   @override
   void initState() {
     super.initState();
+    NotificationServices.checkNotificationAppInForeground(context);
+
     getData();
   }
 

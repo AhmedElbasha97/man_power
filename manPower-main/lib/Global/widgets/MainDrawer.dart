@@ -357,7 +357,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 tileColor: Colors.white,
                 title: Text(
                   "${  Localizations.localeOf(context).languageCode == "en"
-                      ?"chat list":"قيمة الدردشات"}",
+                      ?"chat":"الدردشات"}",
                   style: TextStyle(
                       color: Color(0xFF0671bf),
                       fontSize: 14,
@@ -389,7 +389,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 tileColor: Colors.white,
                 title: Text(
                   "${  Localizations.localeOf(context).languageCode == "en"
-                      ?"Notification list":"قيمة الاشعرات"}",
+                      ?"Notification":"التنبيهات"}",
                   style: TextStyle(
                       color: Color(0xFF0671bf),
                       fontSize: 14,
