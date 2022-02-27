@@ -4,11 +4,11 @@ import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Pages/ChatingScreen/widget/messages_list.dart';
 import 'package:manpower/Pages/ChatingScreen/widget/text_field_chat_bar.dart';
 import 'package:manpower/models/chat/chat_list.dart';
+import 'package:manpower/services/chat_services.dart';
 import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../services/chat_services.dart';
 
 class ChattingScreen extends StatefulWidget {
  final String reciverId;

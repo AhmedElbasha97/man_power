@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:manpower/models/other/notification_list_model.dart';
 
-import 'package:manpower/models/other/notification_model.dart';
 
 class NotificationCell extends StatelessWidget {
   const NotificationCell({Key? key,  required this.notification, required this.press, required this.type}) : super(key: key);

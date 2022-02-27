@@ -2,11 +2,11 @@ import 'package:manpower/Global/theme.dart';
 import 'package:manpower/I10n/app_localizations.dart';
 import 'package:manpower/Pages/client/ClientProfile.dart';
 import 'package:manpower/Pages/companies/CompanyProfile.dart';
+import 'package:manpower/Pages/home_screen.dart';
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/services/AuthService.dart';
 import 'package:flutter/material.dart';
 
-import '../home_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   @override
@@ -45,12 +45,12 @@ class _LogInScreenState extends State<LogInScreen> {
       if (result?.status == "success") {
         if (selectedType == "company") {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => CompanyProfileScreen(),
+            builder: (context) => HomeScreen(),
           ));
         }
         if (selectedType == "client") {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => ClientProfileScreen(),
+            builder: (context) => HomeScreen(),
           ));
         } else {
           Navigator.of(context).pushReplacement(MaterialPageRoute(

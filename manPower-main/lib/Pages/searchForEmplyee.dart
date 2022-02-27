@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/Global/widgets/MainDrawer.dart';
@@ -46,6 +45,13 @@ class _SearchForEmployeeState extends State<SearchForEmployee> {
   }
 
   photoSlider() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? route;
+    if(prefs.containsKey("route")){
+      route = prefs.getString("route");print(route);
+    NotificationServices.notificationSelectingAction(route,context);
+    prefs.remove("route");
+    }
     await getPhotoSlider();
     await getCategories();
     child = map<Widget>(
@@ -79,6 +85,7 @@ class _SearchForEmployeeState extends State<SearchForEmployee> {
   @override
   void initState() {
     super.initState();
+
 
     NotificationServices.checkNotificationAppInForeground(context);
 

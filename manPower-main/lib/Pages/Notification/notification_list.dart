@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Pages/Notification/widget/notifiction_cell.dart';
-import 'package:manpower/models/other/notification_model.dart';
+import 'package:manpower/models/other/notification_list_model.dart';
 import 'package:manpower/services/notification/notification_services.dart';
+import 'package:manpower/widgets/loader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../Global/theme.dart';
-import '../../widgets/loader.dart';
+
 class NotificationsListScreen extends StatefulWidget {
   const NotificationsListScreen({Key? key}) : super(key: key);
 

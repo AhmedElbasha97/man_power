@@ -3,10 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/utils/helpers.dart';
+import 'package:manpower/Pages/ChatingScreen/chating_screen.dart';
 import 'package:manpower/models/Companies/Employees.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:manpower/models/Companies/company.dart';
+import 'package:manpower/models/other/rating.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
 import 'package:manpower/services/notification/notification_services.dart';
@@ -17,7 +19,7 @@ import 'package:manpower/widgets/loader.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../ChatingScreen/chating_screen.dart';
+
 
 // ignore: must_be_immutable
 class CompanyDetailsScreen extends StatefulWidget {
@@ -77,8 +79,8 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
   TextEditingController searchController = TextEditingController();
   FocusNode searchFocusNode = FocusNode();
   bool searchFound = false;
-
-   TabController? tabController;
+  Rating? rating;
+  TabController? tabController;
    GoogleMapController? _mapController;
    CarouselController _carosuelController = CarouselController();
 
@@ -205,7 +207,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                                    
                                   ),
                                   Text(
-                                      "${widget.rating == 'null' ? 0 : widget.rating} (${widget.ratingNo ?? 0})")
+                                      "${rating == "" ? 0 : "${rating?.data?.rating??""}"} (${widget.ratingNo ?? 0})")
                                 ],
                               ),
                               onTap: () {
@@ -233,6 +235,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                                            );
                                         print(result);
                                         if(result=="success"){
+                                          getRating();
                                        }
                                         setState(() {});
                                       } else {
@@ -785,6 +788,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
   }
 
   getAllData() async {
+    await getRating();
     await initListOfTabs();
     await getData();
     await getFilters();
@@ -792,7 +796,9 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
     isLoading = false;
     setState(() {});
   }
-
+   getRating() async {
+     rating = await CompaniesService().getRating(widget.categoryId??"");
+   }
   getData() async {
     employees = await CompaniesService().getEmployees(widget.categoryId,
         job: selectedJob?.occupationId ?? "",

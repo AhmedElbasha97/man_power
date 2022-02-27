@@ -9,6 +9,7 @@ import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/widgets/MainInputFiled.dart';
 import 'package:manpower/I10n/app_localizations.dart';
 import 'package:manpower/Pages/companies/CompanyProfile.dart';
+import 'package:manpower/Pages/companies/map_screen.dart';
 import 'package:manpower/models/Companies/Categories.dart';
 import 'package:manpower/models/Companies/companyInfo.dart';
 import 'package:manpower/models/other/authresult.dart';
@@ -16,7 +17,7 @@ import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:manpower/widgets/button_widget.dart';
 import 'package:manpower/widgets/loader.dart';
 
-import 'map_screen.dart';
+
 
 class CompanyEditProfile extends StatefulWidget {
   final CompanyInfo? data;

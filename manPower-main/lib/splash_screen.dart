@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:manpower/Global/utils/helpers.dart';
 
 import 'package:manpower/Pages/searchForEmplyee.dart';
+import 'package:manpower/models/other/notification.dart';
 import 'package:manpower/selectLang.dart';
 import 'package:flutter/material.dart';
 import 'package:manpower/services/notification/notification_services.dart';
@@ -21,14 +22,19 @@ class _SplashScreenState extends State<SplashScreen> {
    String? token;
   checkToken() async {
 
-
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      final routeFromMessage = message.data["route"];
-      if (routeFromMessage == "update") {
+      var data;
+      message.data.forEach((key, value) {
+        if (key == "data"){
+          print("value of route${notificationFromJson(value).route}");
+          data=notificationFromJson(value).route;
+        }
+      });
+      if (data == "update") {
         launchURL(Platform.isAndroid
             ? "https://play.google.com/store/apps/details?id=com.syncapps.manpower"
             : "https://apps.apple.com/us/app/id1573160692",);
-      } else if (routeFromMessage == "chat") {
+      } else if (data == "chat") {
         final companyIdFromMessage = message.data["companyID"];
         Navigator.of(context).push(
             MaterialPageRoute(builder: (context) =>
@@ -37,11 +43,13 @@ class _SplashScreenState extends State<SplashScreen> {
     );
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? id = prefs.getString("id");
+
+
     Future.delayed(
         Duration(seconds: 2),
         () => {
-          NotificationServices.checkNotificationAppInForeground(context),
-              if (id == null)
+          print("hiiiiii"),
+          if (id == null)
                 {pushPageReplacement(context, SelectLang())}
               else
                 {pushPageReplacement(context, SearchForEmployee())}

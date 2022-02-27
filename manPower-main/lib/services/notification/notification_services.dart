@@ -6,7 +6,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:manpower/Global/Settings.dart';
 import 'package:manpower/Pages/ChatingScreen/chats_list_screen.dart';
-import 'package:manpower/models/other/notification_model.dart';
+import 'package:manpower/models/other/notification.dart';
+import 'package:manpower/models/other/notification_list_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,14 +23,21 @@ class NotificationServices{
   static checkNotificationAppInBackground(context) async{
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message != null) {
-        final routeFromMessage = message.data["route"];
-        notificationSelectingAction(routeFromMessage, context);
+        var data;
+        message.data.forEach((key, value) {
+          if (key == "data"){
+            print("value of route${notificationFromJson(value).route}");
+            data=notificationFromJson(value).route;
+          }
+        });
+        notificationSelectingAction(data, context);
       }
     });
   }
   static checkNotificationAppInForeground(contextOfScreen) async{
     context = contextOfScreen;
     FirebaseMessaging.onMessage.listen((message) {
+
       NotificationServices.display(message);
     });
   }
@@ -64,6 +72,13 @@ class NotificationServices{
     return result;
   }
   static void display(RemoteMessage message)async{
+    var data;
+    message.data.forEach((key, value) {
+      if (key == "data"){
+        print("value of route${notificationFromJson(value).route}");
+        data=notificationFromJson(value).route;
+      }
+    });
     final id = DateTime.now().microsecondsSinceEpoch ~/100000000000000.toInt();
     final NotificationDetails notificationDetails = NotificationDetails(
       android: AndroidNotificationDetails(
@@ -75,10 +90,13 @@ class NotificationServices{
       ),
 
     );
-    await _notificationsPlugin.show(id, message.notification?.title??"", message.notification?.body??"", notificationDetails,payload:  message.data["route"],);
+
+    await _notificationsPlugin.show(id, message.notification?.title??"", message.notification?.body??"", notificationDetails,payload: data,);
   }
-   static void notificationSelectingAction(String route,context){
-    print(route);
+   static void notificationSelectingAction(String? route,context){
+
+print("rout from not $route");
+
     switch(route){
       case "chat":
         {

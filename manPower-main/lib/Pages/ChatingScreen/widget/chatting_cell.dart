@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:manpower/Global/theme.dart';
 
-import '../../../Global/theme.dart';
 
 class ChattingCell extends StatelessWidget {
   const ChattingCell({Key? key, required this.sender, required this.messageText, required this.messageTime}) : super(key: key);

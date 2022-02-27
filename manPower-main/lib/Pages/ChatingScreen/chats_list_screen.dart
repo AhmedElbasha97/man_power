@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Pages/ChatingScreen/chating_screen.dart';
 import 'package:manpower/Pages/ChatingScreen/widget/user_chat_cell.dart';
 import 'package:manpower/models/chat/chat-user_list.dart';
 import 'package:manpower/services/chat_services.dart';
 import 'package:manpower/services/notification/notification_services.dart';
 import 'package:manpower/widgets/loader.dart';
-import '../../Global/theme.dart';
+
 class ChatsListScreen extends StatefulWidget {
   const ChatsListScreen({Key? key}) : super(key: key);
 
