@@ -77,8 +77,11 @@ class AppDataService {
   }
 
   sendRating(String? id, String? rate, String clientId) async {
+    Response response;
     var body = FormData.fromMap(
+
         {"company_id": id, "rate": rate, "client_id": clientId});
-    await Dio().post('$baseUrl$rating', data: body);
+    response=await Dio().post('$baseUrl$rating', data: body);
+    return response.data["status"];
   }
 }

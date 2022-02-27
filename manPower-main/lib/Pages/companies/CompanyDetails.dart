@@ -14,11 +14,9 @@ import 'package:manpower/widgets/Employees/employeesListCard.dart';
 import 'package:manpower/I10n/app_localizations.dart';
 import 'package:manpower/models/AppInfo/Filters.dart' as filter;
 import 'package:manpower/widgets/loader.dart';
-
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../ChatingScreen/chating_screen.dart';
 
 // ignore: must_be_immutable
@@ -221,17 +219,22 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                                     submitButtonText: 'send',
                                     onCancelled: () => print('cancelled'),
                                     onSubmitted: (response) async {
+                                      String result = "";
                                       SharedPreferences prefs =
                                           await SharedPreferences.getInstance();
                                       String? id = prefs.getString("id");
                                       String? type = prefs.getString("type");
                                       if (type == "client") {
                                         widget.rating = "${response.rating}";
-                                        setState(() {});
-                                        AppDataService().sendRating(
+                                        result=await AppDataService().sendRating(
                                             widget.categoryId,
-                                            id,
-                                            "${response.rating}");
+                                          "${response.rating}",
+                                            id!
+                                           );
+                                        print(result);
+                                        if(result=="success"){
+                                       }
+                                        setState(() {});
                                       } else {
                                         showTheDialog(
                                             context,
