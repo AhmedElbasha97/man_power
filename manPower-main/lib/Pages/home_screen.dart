@@ -251,8 +251,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 textInputAction: TextInputAction.search,
                                 onSubmitted: (value) {
                                   searchNode.unfocus();
+                                  apiPage = 1;
+                                  getCompnaies();
                                 },
                                 onChanged: (value) {
+                                  apiPage = 1;
+                                  getCompnaies();
                                   if (value == "") {
                                     apiPage = 1;
                                     getCompnaies();
