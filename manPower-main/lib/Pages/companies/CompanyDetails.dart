@@ -8,6 +8,7 @@ import 'package:manpower/models/Companies/Employees.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:manpower/models/Companies/company.dart';
+import 'package:manpower/models/Companies/statistics_model.dart';
 import 'package:manpower/models/other/rating.dart';
 import 'package:manpower/services/Companies/CompaniesService.dart';
 import 'package:manpower/services/OtherServices.dart/appDataService.dart';
@@ -66,6 +67,7 @@ class CompanyDetailsScreen extends StatefulWidget {
 
 class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
     with SingleTickerProviderStateMixin {
+  StatisticsModel? stats;
    List? imgList;
    List<Widget?>? child;
   int _current = 0;
@@ -789,12 +791,17 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
 
   getAllData() async {
     await getRating();
+    await getStats();
     await initListOfTabs();
     await getData();
     await getFilters();
     photoSlider();
     isLoading = false;
     setState(() {});
+  }
+  getStats() async {
+    stats = await CompaniesService().getStatistics(widget.categoryId??"");
+
   }
    getRating() async {
      rating = await CompaniesService().getRating(widget.categoryId??"");
@@ -928,6 +935,10 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
 
    sendClick(id, socialMedia) {
      CompaniesService().socialMediaClicked(id, socialMedia);
+     getStats();
+     setState(() {
+     });
+
    }
    void _showDialog(String content,String title) {
      // flutter defined function
@@ -979,6 +990,8 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                         sendClick(widget.categoryId, "whatsapp");
 
 
+
+
                           },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -996,7 +1009,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                                           fontSize: 18,
                                           color: Color(0xFF34bc48)),
                                     ),
-                                    Text("${widget.clicks.whatsapp}",
+                                    Text("${stats?.data?.whatsapp??"0"}",
                                         style: TextStyle(
                                             fontSize: 14, color: Colors.grey))
                                   ],
@@ -1064,7 +1077,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                                           fontSize: 18,
                                           color: Color(0xFF008000)),
                                     ),
-                                    Text("${widget.clicks.mobile}",
+                                    Text("${stats?.data?.mobile??"0"}",
                                         style: TextStyle(
                                             fontSize: 14, color: Colors.grey))
                                   ],
@@ -1099,7 +1112,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                                           fontSize: 18,
                                           color: Color(0xFF3f5ca4)),
                                     ),
-                                    Text("${widget.clicks.facebook ?? 0}",
+                                    Text("${stats?.data?.facebook??"0"}",
                                         style: TextStyle(
                                             fontSize: 14, color: Colors.grey))
                                   ],
@@ -1133,7 +1146,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                                           fontSize: 18,
                                           color: Color(0xFFcb0f0f)),
                                     ),
-                                    Text("${widget.clicks.youtube ?? 0}",
+                                    Text("${stats?.data?.youtube??"0"}",
                                         style: TextStyle(
                                             fontSize: 14, color: Colors.grey))
                                   ],
@@ -1167,7 +1180,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                                           fontSize: 18,
                                           color: Color(0xFF82c9f9)),
                                     ),
-                                    Text("${widget.clicks.twitter ?? 0}",
+                                    Text("${stats?.data?.twitter??"0"}",
                                         style: TextStyle(
                                             fontSize: 14, color: Colors.grey))
                                   ],
@@ -1202,7 +1215,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                                           fontSize: 18,
                                           color: Color(0xFFf2785e)),
                                     ),
-                                    Text("${widget.clicks.instagram ?? 0}",
+                                    Text("${stats?.data?.instagram??"0"}",
                                         style: TextStyle(
                                             fontSize: 14, color: Colors.grey))
                                   ],

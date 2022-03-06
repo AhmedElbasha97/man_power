@@ -5,6 +5,7 @@ import 'package:manpower/models/Companies/Categories.dart';
 import 'package:manpower/models/Companies/Employees.dart' as company;
 import 'package:manpower/models/Companies/company.dart';
 import 'package:manpower/models/Companies/companyInfo.dart';
+import 'package:manpower/models/Companies/statistics_model.dart';
 import 'package:manpower/models/Companies/walletItemCompany.dart';
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/models/other/rating.dart';
@@ -47,6 +48,17 @@ class CompaniesService {
       print('error in categories => ${e.response}');
     }
     return rate;
+  }Future<StatisticsModel?> getStatistics(String companyId) async {
+    Response response;
+    StatisticsModel? statistics ;
+    try {
+      response = await Dio().get('http://manpower-kw.com/api/statistics/$companyId');
+      var data = response.data;
+      statistics =StatisticsModel.fromJson(data);
+    } on DioError catch (e) {
+      print('error in categories => ${e.response}');
+    }
+    return statistics;
   }
 
   Future<List<Company>> getCompanies(String id,
@@ -99,6 +111,7 @@ class CompaniesService {
     }
     return result;
   }
+
 
   Future<AuthResult> companySignUp(
       { String? username,
