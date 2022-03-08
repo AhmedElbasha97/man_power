@@ -67,12 +67,8 @@ class _PackagesScreenState extends State<PackagesScreen> {
                     ExpandablePanelHeaderAlignment.center,
                     tapBodyToCollapse: true,
                     ),
-                    header: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Container(
-                    height:
-                    MediaQuery.of(context).size.height *
-                0.04,
+                    header: Container(
+
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -80,7 +76,7 @@ class _PackagesScreenState extends State<PackagesScreen> {
                     Text(
                       Localizations.localeOf(context).languageCode == "en"
                           ? "${list[index].titleEn}"
-                          : "${list[index].titleAr}",
+                          : "${list[index].titleAr}",maxLines: null,
                       softWrap: true,
                       style: TextStyle(fontSize: 15, color: Colors.white),
                     ),
@@ -90,7 +86,6 @@ class _PackagesScreenState extends State<PackagesScreen> {
                       style: TextStyle(fontSize: 15, color: Colors.white),
                     )
                   ],
-                ),
                 ),
                 ),
                 expanded:Text( Localizations.localeOf(context).languageCode == "en" ?list[index].featuresEn??"":list[index].featuresAr??"",style: TextStyle(fontSize: 15, color: Colors.white),),

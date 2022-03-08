@@ -4,7 +4,8 @@ import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/Global/widgets/MainDrawer.dart';
 import 'package:manpower/I10n/app_localizations.dart';
-import 'package:manpower/Pages/Chat/chatList.dart';
+import 'package:manpower/Pages/ChatingScreen/chating_screen.dart';
+import 'package:manpower/Pages/ChatingScreen/chats_list_screen.dart';
 import 'package:manpower/Pages/appData/packagesScreen.dart';
 import 'package:manpower/Pages/auth/edit_profile_screen.dart';
 import 'package:manpower/Pages/client/ClientWallet.dart';
@@ -339,7 +340,7 @@ class _ClientProfileScreenState extends State<ClientProfileScreen> {
                         ),
                       ),
                       onTap: () {
-                        pushPage(context, ChatList());
+                        pushPage(context, ChatsListScreen());
                       }),
                   ListTile(
                       tileColor: mainBlueColor,

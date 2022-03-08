@@ -187,7 +187,12 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                                 "assets/icon/callUs.png",
                                 scale: 9,
                               ),
-                              onPressed: () => filterDialog(),
+                              onPressed: (){
+                                getStats();
+                                setState(() {
+
+                                });
+                                filterDialog();}
                             ),
                             IconButton(
                               icon: Image.asset(
@@ -933,11 +938,12 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
      }
    }
 
-   sendClick(id, socialMedia) {
-     CompaniesService().socialMediaClicked(id, socialMedia);
-     getStats();
-     setState(() {
+   sendClick(id, socialMedia) async {
+     await CompaniesService().socialMediaClicked(id, socialMedia).then((value) => {
+       getStats(),
+     setState(() {}),
      });
+
 
    }
    void _showDialog(String content,String title) {
@@ -988,10 +994,6 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
                       InkWell(
                         onTap: () {  _launchURL("https://wa.me/${widget.whatsAppNumber}","whatsapp");
                         sendClick(widget.categoryId, "whatsapp");
-
-
-
-
                           },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

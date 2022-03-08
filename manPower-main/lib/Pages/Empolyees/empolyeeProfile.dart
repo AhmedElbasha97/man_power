@@ -3,7 +3,8 @@ import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/Global/widgets/MainDrawer.dart';
 import 'package:manpower/I10n/app_localizations.dart';
-import 'package:manpower/Pages/Chat/chatList.dart';
+import 'package:manpower/Pages/ChatingScreen/chating_screen.dart';
+import 'package:manpower/Pages/ChatingScreen/chats_list_screen.dart';
 import 'package:manpower/Pages/Empolyees/EditProfileData.dart';
 import 'package:manpower/models/Companies/Employees.dart';
 import 'package:manpower/services/workersService.dart';
@@ -78,7 +79,7 @@ class _EmployeeProfileState extends State<EmployeeProfile> {
                       ),
                     ),
                     onTap: () {
-                      pushPage(context, ChatList());
+                      pushPage(context, ChatsListScreen());
                     }),
                 Container(
                   color: Colors.white,
