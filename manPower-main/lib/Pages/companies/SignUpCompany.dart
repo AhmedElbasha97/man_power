@@ -7,6 +7,8 @@ import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/Global/widgets/MainInputFiled.dart';
 import 'package:manpower/I10n/app_localizations.dart';
+import 'package:manpower/Pages/appData/Privacy_police_screen.dart';
+import 'package:manpower/Pages/appData/terms_condition_screren.dart';
 import 'package:manpower/models/Companies/Categories.dart';
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/pages/searchForEmplyee.dart';
@@ -33,7 +35,7 @@ class _CompanySignUpState extends State<CompanySignUp> {
   TextEditingController _usernameController = new TextEditingController();
   TextEditingController _mobileController = new TextEditingController();
   List<Categories> categories = [];
-
+  var val;
    Categories? selectedCat;
 
   @override
@@ -44,6 +46,7 @@ class _CompanySignUpState extends State<CompanySignUp> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         key: scaffoldKey,
         appBar: AppBar(),
@@ -166,9 +169,73 @@ class _CompanySignUpState extends State<CompanySignUp> {
                         )),
                   ),
                   SizedBox(height: 10),
+
+                  Row(
+                    children: [
+                      Radio(
+                        value: 1,
+                        groupValue: val,
+                        onChanged: (value) {
+                          setState(() {
+                            val = value;
+
+                          });
+                        },
+                        toggleable: true,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              Localizations.localeOf(context).languageCode == "en"
+                                  ? "i have read and accept "
+                                  : "انا قرأت و اوافق علي "),
+                          Row(
+                            children: [
+                              InkWell(
+                                onTap: (){
+                                  pushPage(context,
+                                      PrivacyPolicyScreen());
+                                },
+                                child: Text(
+                                  Localizations.localeOf(context).languageCode == "en"
+                                      ? "privacy policy"
+                                      : "سياسة خاصة",
+                                  style: TextStyle(
+                                      color: Colors.blue
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                  Localizations.localeOf(context).languageCode == "en"
+                                      ? " and "
+                                      : " و "),
+                              InkWell(
+                                onTap: (){
+                                  pushPage(context,
+                                      TermsAndConditionScreen());
+                                },
+                                child: Text(
+                                  Localizations.localeOf(context).languageCode == "en"
+                                      ? "terms and condition"
+                                      : "أحكام وشروط",
+                                  style: TextStyle(
+                                      color: Colors.blue
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 10),
                   InkWell(
                     onTap: () {
-                      signUp();
+                      if(val==1){
+                      signUp();}
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.8,
@@ -176,7 +243,7 @@ class _CompanySignUpState extends State<CompanySignUp> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: mainOrangeColor),
+                          color: val==1?mainOrangeColor:Colors.grey),
                       child: Text(
                           "${AppLocalizations.of(context)?.translate('done')}",
                           style: TextStyle(color: Colors.white)),

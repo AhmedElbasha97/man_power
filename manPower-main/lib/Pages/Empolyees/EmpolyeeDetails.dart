@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/I10n/app_localizations.dart';
+import 'package:manpower/Pages/reportScreen/report_screen.dart';
+import 'package:manpower/Pages/welcome_screen.dart';
 import 'package:manpower/models/Companies/Employees.dart';
 import 'package:manpower/widgets/Employees/bigPicture.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,7 +48,30 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
       }
     }
   }
+  void _showDialog(String content,String title,bool signing) {
 
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(title),
+          content: new Text(content),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new TextButton(
+              child: !signing?Text(Localizations.localeOf(context).languageCode == "en"
+                  ?"Close":"اغلق"):Text(Localizations.localeOf(context).languageCode == "en"
+                  ?"sign up":"تسجيل دخول",),
+              onPressed: () {
+                !signing?Navigator.of(context).pop(): pushPage(context, WelcomeScreen());
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   void initState() {
     super.initState();
@@ -117,7 +142,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
-                width: 110,
+                width: 100,
                 height: 40,
                 padding: EdgeInsets.symmetric(vertical: 6, horizontal: 3),
                 alignment: Alignment.center,
@@ -179,7 +204,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                   }
                 },
                 child: Container(
-                  width: 110,
+                  width: 80,
                   height: 40,
                   padding: EdgeInsets.symmetric(vertical: 6, horizontal: 3),
                   alignment: Alignment.center,
@@ -205,6 +230,40 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
               ),
               InkWell(
                 onTap: () async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  if(prefs.containsKey("id")) {
+                    pushPage(context,
+                        ReportScreen(employerId: widget.data?.workerId ?? "",));
+                  }else{
+                    _showDialog("${Localizations.localeOf(context).languageCode == "en"
+                        ?"you must sign in or sign up so you can report this account":"لا بد من انشاء حساب أولا أو تسجيل الدخول لكى تستطيع الابلاغ عن هذا الحساب"}", "${Localizations.localeOf(context).languageCode == "en"
+                        ?"sorry":"عذرا"}",true);
+                  }
+                },
+                child: Container(
+                  width: 80,
+                  height: 40,
+                  padding: EdgeInsets.symmetric(vertical: 6, horizontal: 3),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: mainOrangeColor),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FaIcon(FontAwesomeIcons.flag,
+                          size: 20, color: Colors.white),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text("${Localizations.localeOf(context).languageCode == "en"
+                          ?"Report":"الابلاغ"}",
+                          style: TextStyle(color: Colors.white, fontSize: 12)),
+                    ],
+                  ),
+                ),
+              ),InkWell(
+                onTap: () async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   String userId = prefs.getString("id") ?? "";
@@ -220,7 +279,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                   }
                 },
                 child: Container(
-                  width: 100,
+                  width: 80,
                   height: 40,
                   padding: EdgeInsets.symmetric(vertical: 6, horizontal: 3),
                   alignment: Alignment.center,

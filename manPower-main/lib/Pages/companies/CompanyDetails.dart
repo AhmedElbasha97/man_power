@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:manpower/Global/theme.dart';
 import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/Pages/ChatingScreen/chating_screen.dart';
+import 'package:manpower/Pages/welcome_screen.dart';
 import 'package:manpower/models/Companies/Employees.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -929,7 +930,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
      if(url == "" || url == "https://wa.me/" || url == "tel:"){
        _showDialog(Localizations.localeOf(context).languageCode == "en"
            ?"the $nameOfSocialProgram is not available at the moment": "منصة"+" "+nameOfSocialProgram+" "+" غير متاحه الان",  Localizations.localeOf(context).languageCode == "en"
-           ?"sorry":"عذرا");
+           ?"sorry":"عذرا",false);
      }
      if (await canLaunch(url)) {
        await launch(url);
@@ -946,7 +947,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
 
 
    }
-   void _showDialog(String content,String title) {
+   void _showDialog(String content,String title,bool signing) {
      // flutter defined function
      showDialog(
        context: context,
@@ -958,10 +959,11 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
            actions: <Widget>[
              // usually buttons at the bottom of the dialog
              new TextButton(
-               child: new Text(Localizations.localeOf(context).languageCode == "en"
-                   ?"Close":"اغلق"),
+               child: !signing?Text(Localizations.localeOf(context).languageCode == "en"
+                   ?"Close":"اغلق"):Text(Localizations.localeOf(context).languageCode == "en"
+         ?"sign up":"تسجيل دخول",),
                onPressed: () {
-                 Navigator.of(context).pop();
+                 !signing?Navigator.of(context).pop(): pushPage(context, WelcomeScreen());
                },
              ),
            ],
@@ -1268,7 +1270,7 @@ class _CompanyDetailsScreenState extends State<CompanyDetailsScreen>
        );
      }else{
        Localizations.localeOf(context).languageCode == "en"
-           ?_showDialog("please sign in or sign up first", "you can't with this office"):_showDialog("يجب عليك ان تسجل دخولك أولا أو تقوم بإنشاء حساب", "لا يمكنك التحدث مع هذا المكتب");
+           ?_showDialog("please sign in or sign up first", "you can't with this office",true):_showDialog("يجب عليك ان تسجل دخولك أولا أو تقوم بإنشاء حساب", "لا يمكنك التحدث مع هذا المكتب",true);
      }
    }
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,6 +12,8 @@ import 'package:manpower/I10n/app_localizations.dart';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:manpower/Pages/Empolyees/empolyeeProfile.dart';
 import 'package:manpower/Pages/Jobs/JobsScreen.dart';
+import 'package:manpower/Pages/appData/Privacy_police_screen.dart';
+import 'package:manpower/Pages/appData/terms_condition_screren.dart';
 import 'package:manpower/models/AppInfo/Filters.dart';
 import 'package:manpower/models/other/authresult.dart';
 import 'package:manpower/services/OtherServices.dart/SendCvService.dart';
@@ -124,9 +127,10 @@ class _AddCvScreenState extends State<AddCvScreen> {
     passportdateNode.unfocus();
     passportEnddateNode.unfocus();
   }
-
+  var val;
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -1322,9 +1326,72 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                         )),
                                   ),
                             SizedBox(height: 10),
+
+                            Row(
+                              children: [
+                                Radio(
+                                  value: 1,
+                                  groupValue: val,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      val = value;
+
+                                    });
+                                  },
+                                  toggleable: true,
+                                ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        Localizations.localeOf(context).languageCode == "en"
+                                            ? "i have read and accept "
+                                            : "انا قرأت و اوافق علي "),
+                                    Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: (){
+                                            pushPage(context,
+                                                PrivacyPolicyScreen());
+                                          },
+                                          child: Text(
+                                            Localizations.localeOf(context).languageCode == "en"
+                                                ? "privacy policy"
+                                                : "سياسة خاصة",
+                                            style: TextStyle(
+                                                color: Colors.blue
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                            Localizations.localeOf(context).languageCode == "en"
+                                                ? " and "
+                                                : " و "),
+                                        InkWell(
+                                          onTap: (){
+                                            pushPage(context,
+                                                TermsAndConditionScreen());
+                                          },
+                                          child: Text(
+                                            Localizations.localeOf(context).languageCode == "en"
+                                                ? "terms and condition"
+                                                : "أحكام وشروط",
+                                            style: TextStyle(
+                                                color: Colors.blue
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                  ],
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 10),
                             InkWell(
                               onTap: () {
-                                sendCv();
+                                if(val==1){sendCv();}
                               },
                               child: Container(
                                 width: MediaQuery.of(context).size.width * 0.8,
@@ -1333,7 +1400,7 @@ class _AddCvScreenState extends State<AddCvScreen> {
                                 decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10)),
-                                    color: mainOrangeColor),
+                                    color: val==1?mainOrangeColor:Colors.grey),
                                 child: Text(
                                     "${AppLocalizations.of(context)?.translate('save')}",
                                     style: TextStyle(color: Colors.white)),

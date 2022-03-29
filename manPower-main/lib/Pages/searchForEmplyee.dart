@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/Global/widgets/MainDrawer.dart';
+import 'package:manpower/Pages/welcome_screen.dart';
 import 'package:manpower/models/AppInfo/homeSilder.dart';
 import 'package:manpower/models/Companies/Categories.dart';
 import 'package:manpower/models/workers/workersCategories.dart';
@@ -15,13 +17,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/notification/notification_services.dart';
 
-class SearchForEmployee extends StatefulWidget {
+class  SearchForEmployee extends StatefulWidget {
   @override
   _SearchForEmployeeState createState() => _SearchForEmployeeState();
 }
 
 class _SearchForEmployeeState extends State<SearchForEmployee> {
    List<Widget?>? child;
+
+
    List? photoSliderList;
    final CarouselController _controller = CarouselController();
   bool isLoading = true;
@@ -123,6 +127,25 @@ class _SearchForEmployeeState extends State<SearchForEmployee> {
                     },
                   ),
                 ),
+               id ==null? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text( Localizations.localeOf(context).languageCode == "en"
+                        ?"if you don't have an account":"اذا لم يكن لديك حساب"),
+                    SizedBox(width: 4,),
+                    InkWell(
+                      onTap: (){
+                        pushPage(context, WelcomeScreen());
+                      },
+                      child: Text(
+                         Localizations.localeOf(context).languageCode == "en"
+                            ?"you can create an account":"يمكنك إنشاء حساب",style: TextStyle(
+                        color: Colors.blue
+                      ),
+                      ),
+                    )
+                  ],
+                ):SizedBox(),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 70 * (categories.length).toDouble(),

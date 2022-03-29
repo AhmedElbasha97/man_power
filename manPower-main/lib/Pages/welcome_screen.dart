@@ -1,6 +1,8 @@
+import 'package:manpower/Global/utils/helpers.dart';
 import 'package:manpower/Global/widgets/MainButton.dart';
 import 'package:manpower/I10n/app_localizations.dart';
 import 'package:manpower/Pages/CVs/AddCVScreen.dart';
+import 'package:manpower/Pages/auth/logIn_screen.dart';
 import 'package:manpower/Pages/auth/signUpScreen.dart';
 import 'package:manpower/Pages/companies/SignUpCompany.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +61,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 },
               ),
               Padding(padding: EdgeInsets.only(top: 10)),
+             Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+               children: [
+                 Text(Localizations.localeOf(context).languageCode == "en"
+                     ?"if you already have an account":"اذا كان لديك حساب"),
+                 SizedBox(width: 5,),
+                 InkWell(
+                   onTap: (){
+                     pushPage(context, LogInScreen());
+                   },
+                   child: Text(Localizations.localeOf(context).languageCode == "en"
+    ?"you can sign in":"يمكنك تسجيل الدخول", style: TextStyle(
+                     color: Colors.blue
+                   ),),
+                 ),
+               ],
+             )
             ],
           )
         ],

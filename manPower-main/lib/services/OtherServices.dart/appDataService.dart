@@ -5,6 +5,7 @@ import 'package:manpower/models/AppInfo/homeSilder.dart';
 import 'package:manpower/models/AppInfo/packages.dart';
 import 'package:manpower/models/AppInfo/paymentData.dart';
 import 'package:manpower/models/AppInfo/termsData.dart';
+import 'package:manpower/models/other/privacy_policy_model.dart';
 import '../../Global/Settings.dart';
 
 class AppDataService {
@@ -56,6 +57,21 @@ class AppDataService {
     data = TermsData.fromJson(response.data);
     return data;
   }
+  Future<PrivacyPolicyModel> getPrivacyPolicy() async {
+    PrivacyPolicyModel data;
+    Response response;
+    response = await Dio().get('http://manpower-kw.com/api/policy');
+    data = PrivacyPolicyModel.fromJson(response.data);
+    return data;
+  }
+
+  Future<PrivacyPolicyModel> getTermsAndCondition() async {
+    PrivacyPolicyModel data;
+    Response response;
+    response = await Dio().get('http://manpower-kw.com/api/terms');
+    data = PrivacyPolicyModel.fromJson(response.data);
+    return data;
+  }
 
   Future<About> getabout() async {
     About data;
@@ -64,6 +80,7 @@ class AppDataService {
     data = About.fromJson(response.data);
     return data;
   }
+
 
   Future<List<PackagesModel>> getPackages() async {
     Response response;
